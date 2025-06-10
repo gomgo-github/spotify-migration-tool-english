@@ -1,0 +1,26 @@
+Con le nuove modifiche il programma funziona quasi alla perfezione. Riscontra ancora dei problemini:
+1 Quando collego l'account sorgente con successo, dopo aver accettato il pop up delle autorizzazioni di Spotify mi ricompare lo stesso pop up che ho intuito fosse per l'account destinatario però l'app dovrebbe specificarlo rimandandomi prima alla pagina che mi dica collega "l'account destinatario".
+2 Nella pagina di preview, la definizione Liked Song dovrebbe corrispondere a Brani Preferiti solo che il numero reale dei brani non coincide. Inoltre oltre alla migrazione degli artisti seguiti vorrei fosse possibile migrare anche gli altri account seguiti come quelli degli amici. Vorrei inoltre poter migrare la foto profilo dell'account sorgente e impostarla come quella del destinatario.
+3 La pagina preview mi pare un po' brutta a livello di design. Mi piacerebbe che Playlist, Brani Preferiti, Artisti Seguiti, Foto Profilo, Amici Seguiti fossero delle card selezionabili che se ci passo col cursore fanno una transizione e che se selezionate ricevano un contorno color verde Spotify. 
+4 Nella parte di migrazione vorrei eseguire un controllo. Se la playlist non è stata creata dall'account sorgente non devi ricrearla da zero nell'account destinatario ma basta che la fai seguire come aveva fatto in origine l'account sorgente. Per la migrazione delle immagini copertina della playlist ricordati che non tutte le playlist devono per forza avere una copertina quindi non voglio ricevere errori per questo.
+
+Nella pagina di preview rendi le card con gli angoli un po' più tondi e rimuovi il checkbox all'interno che tanto si capisce dal contorno se è selezionata.
+Nella preview ogni playlist avrà la propria card però con un menù apribile che mostrerà ogni singola canzone presente nella playlist che si può deselezionare tramite un checkbox a proprio piacimento.
+Inoltre ancora non vedo la possibilità di migrare anche gli altri account seguiti come quelli degli amici.
+
+riscontro un problema con la migrazione degli amici seguiti su spotify Inanzittutto nella preview il numero degli amici seguidi dall'acocunt sorgente non mi sembra corretto. Inoltre quando provo a migrarli quindi a farli seguire anche dall'account destinatario riscontro un errore:
+Failed to migrate followed users: Failed to migrate followed users
+
+
+
+crea una web app se vuoi con react che attraverso l'utilizzo delle API Spotify e di una app spotify (developer.spotify.com) elimini tutti i contenuti in un account spotify. Deve smettere di seguire tutte le persone artisti e amici seguiti. Deve rimuovere la foto profilo. Deve eliminare tutte le playlist create e esmetterre di seguire quelle seguite. Deve eliminare tutti i brani preferiti.
+
+ho riscontrato un grosso problema con l'ultima modifica. La funzione di migrazione degli account seguiti non funziona ma fa tutt'altro. Invece di seguire i profili ha inziato a seguire tutte le playlist dei miei amici e anche di persone che non conosco probabilmente amici di amici.
+Inoltre non capisco perchè abbiamo creato un file followed-users.js quando puoi sistemare la funzione all'interno di migration.js così anche da non riscontrare problemi di sessione.
+
+Va bene allora puoi rimuovere la funzione ela card per migrare gli amici che seguo. Inoltre ci sarebbero dei bug da risolvere:
+1 Quando migro una playlist spesso non mi trasferisce l'intero numero dei brani della playlist ma tipo 300 su 566 brani o 100 su 315. Inoltre non riesce a migrare anche l'immagine della playlist se fosse personalizzata dall'utente dell'account sorgente.
+2 Aggiungi la possibilità di migrare anche le Radio seguite dall'utente sorgente (Playlist create da spotify su base di un brano). Puoi aggiungerle nella card delle playlist
+3 Come hai fatto per la card delle playlist fai in modo che per gli artiti seguiti si possa espandere un menù interno e scegliere quale artista migrare, lo stesso per i brani preferiti con i brani.
+4 la migrazione della foto profilo non funziona, non mi imposta la foto profilo dell'account di origine in quello di destinazione.
+5 nella pagina di preview aggiungi in alto un pulsante "Seleziona tutto" per fare in modo di eseguire la migrazione completa di tutto.
