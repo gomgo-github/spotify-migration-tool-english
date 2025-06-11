@@ -24,6 +24,56 @@ const getApiInstances = (req) => {
   return { sourceApi, destApi };
 };
 
+// 🔒 SICUREZZA: Funzione per verificare tracce esistenti in modo granulare
+const checkExistingTracksInBatch = async (trackIds, req) => {
+  try {
+    const { destApi } = getApiInstances(req);
+    const checkResult = await destApi.containsMySavedTracks(trackIds);
+    
+    // Filtra solo le tracce non ancora salvate
+    const newTracks = trackIds.filter((trackId, index) => !checkResult.body[index]);
+    
+    return {
+      newTracks,
+      alreadyExisting: trackIds.length - newTracks.length,
+      total: trackIds.length
+    };
+  } catch (error) {
+    console.error('Error checking existing tracks:', error);
+    // In caso di errore, assumiamo che tutte le tracce siano nuove per sicurezza
+    return {
+      newTracks: trackIds,
+      alreadyExisting: 0,
+      total: trackIds.length
+    };
+  }
+};
+
+// 🔒 SICUREZZA: Funzione per verificare artisti già seguiti in modo granulare
+const checkExistingArtistsInBatch = async (artistIds, req) => {
+  try {
+    const { destApi } = getApiInstances(req);
+    const checkResult = await destApi.isFollowingArtists(artistIds);
+    
+    // Filtra solo gli artisti non ancora seguiti
+    const newArtists = artistIds.filter((artistId, index) => !checkResult.body[index]);
+    
+    return {
+      newArtists,
+      alreadyFollowing: artistIds.length - newArtists.length,
+      total: artistIds.length
+    };
+  } catch (error) {
+    console.error('Error checking existing artists:', error);
+    // In caso di errore, assumiamo che tutti gli artisti siano nuovi per sicurezza
+    return {
+      newArtists: artistIds,
+      alreadyFollowing: 0,
+      total: artistIds.length
+    };
+  }
+};
+
 // Funzione per verificare se una playlist esiste già nell'account di destinazione
 const checkPlaylistExists = async (playlistName, req) => {
   try {
