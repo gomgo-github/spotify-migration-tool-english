@@ -21,7 +21,7 @@ const AuthSource = () => {
     const error = urlParams.get('error');
     
     if (error) {
-      setError('Autenticazione fallita: ' + error);
+      setError('Authentication failed: ' + error);
       return;
     }
     
