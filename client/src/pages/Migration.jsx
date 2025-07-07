@@ -15,14 +15,14 @@ const Migration = ({ authStatus }) => {
 
   useEffect(() => {
     try {
-      // Recupera le selezioni da localStorage
+      // Retrieve selections from localStorage
       const selectedPlaylists = JSON.parse(localStorage.getItem('selectedPlaylists') || '[]');
       const selectedSavedTracks = JSON.parse(localStorage.getItem('selectedSavedTracks') || 'false');
       const selectedSavedTrackIds = JSON.parse(localStorage.getItem('selectedSavedTrackIds') || '[]');
       const selectedFollowedArtists = JSON.parse(localStorage.getItem('selectedFollowedArtists') || 'false');
       const selectedFollowedArtistIds = JSON.parse(localStorage.getItem('selectedFollowedArtistIds') || '[]');
       
-      // Verifica se almeno una delle selezioni contiene elementi
+      // Check if at least one of the selections contains elements
       const hasData = 
         selectedPlaylists.length > 0 || 
         (selectedSavedTracks && selectedSavedTrackIds.length > 0) || 
@@ -33,7 +33,7 @@ const Migration = ({ authStatus }) => {
         return;
       }
       
-      // Crea l'oggetto migrationData
+      // Create migrationData object
       const migrationData = {
         playlists: selectedPlaylists,
         savedTracks: selectedSavedTracks,
@@ -56,19 +56,19 @@ const Migration = ({ authStatus }) => {
       setMigrationStarted(true);
       setLoading(true);
       
-      // Invia la richiesta di migrazione con le opzioni di default
+      // Submit migration request with default options
       const response = await axios.post('/api/migration/migrate', {
         ...migrationData,
-        followNonUserPlaylists: true, // Opzione di default
-        transferImages: true // Opzione di default
+        followNonUserPlaylists: true, // Default option
+        transferImages: true // Default option
       });
       
-      // Aggiorna lo stato con i risultati
+      // Update status with results
       setMigrationStatus(response.data.success ? 'completed' : 'failed');
       setMigrationLog(response.data.log || []);
       setErrors(response.data.errors || []);
       
-      // Pulisci il localStorage
+      // Clean up localStorage
       localStorage.removeItem('selectedPlaylists');
       localStorage.removeItem('selectedSavedTracks');
       localStorage.removeItem('selectedSavedTrackIds');
@@ -89,47 +89,47 @@ const Migration = ({ authStatus }) => {
       <Container sx={{ py: 8, textAlign: 'center' }}>
         <CircularProgress size={60} />
         <Typography variant="h6" sx={{ mt: 2 }}>
-          {migrationStarted ? 'Migrazione in corso...' : 'Caricamento dati...'}
+          {migrationStarted ? 'Migration in progress...' : 'Loading data...'}
         </Typography>
       </Container>
     );
   }
 
-  // Pagina di riepilogo prima della migrazione
+  // Summary page before migration
   if (!migrationStarted) {
     return (
       <Container maxWidth="md" sx={{ py: 4 }}>
         <Typography variant="h4" component="h1" gutterBottom>
-          Riepilogo Migrazione
+          Migration Summary
         </Typography>
         
         <Paper elevation={3} sx={{ p: 4, borderRadius: 2, mb: 4 }}>
           <Typography variant="h6" gutterBottom>
-            Elementi da migrare
+            Items to migrate
           </Typography>
           
           <Typography variant="body1" paragraph>
-            Stai per migrare i seguenti elementi da {authStatus.sourceUser?.display_name} a {authStatus.destUser?.display_name}:
+            You are about to migrate the following items from {authStatus.sourceUser?.display_name} to {authStatus.destUser?.display_name}:
           </Typography>
           
           <List sx={{ width: '100%', maxWidth: 360, mx: 'auto', bgcolor: 'background.paper' }}>
             {migrationData?.playlists.length > 0 && (
               <ListItem>
                 <ListItemText 
-                  primary={`${migrationData.playlists.length} Playlist`} 
+                  primary={`${migrationData.playlists.length} Playlists`} 
                 />
               </ListItem>
             )}
             
             {migrationData?.savedTracks && migrationData.savedTrackIds.length > 0 && (
               <ListItem>
-                <ListItemText primary={`${migrationData.savedTrackIds.length} Brani Preferiti`} />
+                <ListItemText primary={`${migrationData.savedTrackIds.length} Favorite Tracks`} />
               </ListItem>
             )}
             
             {migrationData?.followedArtists && migrationData.followedArtistIds.length > 0 && (
               <ListItem>
-                <ListItemText primary={`${migrationData.followedArtistIds.length} Artisti Seguiti`} />
+                <ListItemText primary={`${migrationData.followedArtistIds.length} Followed Artists`} />
               </ListItem>
             )}
           </List>
@@ -141,14 +141,14 @@ const Migration = ({ authStatus }) => {
               size="large"
               onClick={startMigration}
             >
-              Avvia Migrazione
+              Start Migration
             </Button>
             <Button 
               variant="outlined" 
               color="primary"
               onClick={() => navigate('/preview')}
             >
-              Torna alla selezione
+              Back to selection
             </Button>
           </Box>
         </Paper>
@@ -156,16 +156,16 @@ const Migration = ({ authStatus }) => {
     );
   }
 
-  // Pagina di risultati della migrazione
+  // Migration results page
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <Typography variant="h4" component="h1" gutterBottom>
-        {migrationStatus === 'completed' ? 'Migrazione Completata' : 'Errore nella Migrazione'}
+        {migrationStatus === 'completed' ? 'Migration Completed' : 'Migration Error'}
       </Typography>
       
       <Box sx={{ mt: 4 }}>
         <Typography variant="h6" gutterBottom>
-          Log della Migrazione
+          Migration Log
         </Typography>
         <Paper sx={{ p: 2, maxHeight: 400, overflow: 'auto' }}>
           {migrationLog.map((log, index) => (
@@ -179,7 +179,7 @@ const Migration = ({ authStatus }) => {
       {errors.length > 0 && (
         <Box sx={{ mt: 4 }}>
           <Typography variant="h6" color="error" gutterBottom>
-            Errori
+            Error
           </Typography>
           <Paper sx={{ p: 2, maxHeight: 200, overflow: 'auto', bgcolor: 'error.light' }}>
             {errors.map((error, index) => (
@@ -197,14 +197,14 @@ const Migration = ({ authStatus }) => {
           color="primary"
           onClick={() => navigate('/preview')}
         >
-          Torna all'Anteprima
+          Back to Preview
         </Button>
         <Button 
           variant="outlined" 
           color="primary"
           onClick={() => navigate('/')}
         >
-          Torna alla Home
+          Back to Home
         </Button>
       </Box>
     </Container>
