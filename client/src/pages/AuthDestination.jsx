@@ -21,7 +21,7 @@ const AuthDestination = () => {
     const error = urlParams.get('error');
     
     if (error) {
-      setError('Autenticazione fallita: ' + error);
+      setError('Authentication failed: ' + error);
       return;
     }
     
@@ -38,13 +38,13 @@ const AuthDestination = () => {
           if (response.data.destAuthenticated) {
             navigate('/preview');
           } else {
-            setError('Autenticazione fallita. Riprova.');
+            setError('Authentication failed. Please try again.');
           }
         })
         .catch(err => {
           console.error('Error checking auth status:', err);
           setLoading(false);
-          setError('Errore durante il controllo dello stato di autenticazione');
+          setError('Error checking authentication status');
         });
     }
   }, [navigate]);
@@ -55,7 +55,7 @@ const AuthDestination = () => {
     window.location.href = '/api/auth/destination/login';
   };
 
-  const steps = ['Connetti Sorgente', 'Connetti Destinazione', 'Migrazione'];
+  const steps = ['Connect Source', 'Connect Target', 'Migration'];
 
   if (loading) {
     return (
@@ -85,10 +85,10 @@ const AuthDestination = () => {
             />
           </Box>
           <Typography variant="h5" sx={{ mb: 1, fontWeight: 600 }}>
-            Autenticazione in corso...
+           Authentication in progress...
           </Typography>
           <Typography variant="body1" color="text.secondary">
-            Ti stiamo reindirizzando a Spotify per autorizzare l'account destinazione
+            We are redirecting you to Spotify to authorize the target account
           </Typography>
         </Card>
       </Container>
@@ -167,7 +167,7 @@ const AuthDestination = () => {
                   backgroundClip: 'text'
                 }}
               >
-                Connetti Account Destinazione
+                Connect Target Account
               </Typography>
             </Box>
             
@@ -177,7 +177,7 @@ const AuthDestination = () => {
               color="text.secondary"
               sx={{ mb: 4, lineHeight: 1.6 }}
             >
-              Ottimo! Ora connetti il tuo account Spotify <strong>destinazione</strong> - quello verso cui vuoi trasferire i dati.
+              Great! Now connect your Spotify <strong>target</strong> account - the one you want to transfer data to.
             </Typography>
             
             {error && (
@@ -198,11 +198,11 @@ const AuthDestination = () => {
             <Box sx={{ mb: 4 }}>
               <Typography variant="body1" color="text.secondary" paragraph>
                 <SecurityIcon sx={{ verticalAlign: 'middle', mr: 1, color: '#1DB954' }} />
-                Anche questo account utilizzerà l'autenticazione OAuth2 sicura di Spotify
+                This account will also use Spotify's secure OAuth2 authentication.
               </Typography>
               <Typography variant="body1" color="text.secondary">
                 <CheckCircleIcon sx={{ verticalAlign: 'middle', mr: 1, color: '#1DB954' }} />
-                Assicurati di utilizzare l'account Spotify corretto per la destinazione
+                Make sure you are using the correct Spotify account for the destination
               </Typography>
             </Box>
             
@@ -228,12 +228,12 @@ const AuthDestination = () => {
                 transition: 'all 0.3s ease'
               }}
             >
-              🎯 Connetti Account Destinazione
+              🎯 Connect Target Account
             </Button>
             
             <Box sx={{ mt: 4 }}>
               <Typography variant="body2" color="text.secondary" sx={{ opacity: 0.8 }}>
-                Una volta connesso, potrai selezionare cosa migrare tra i due account
+                Once connected, you can select what to migrate between the two accounts.
               </Typography>
             </Box>
           </Paper>
