@@ -24,46 +24,46 @@ const Home = ({ authStatus }) => {
 
   const steps = [
     {
-      title: '1. Connetti Account Sorgente',
-      description: 'Autorizza l\'account Spotify da cui vuoi trasferire i dati',
+      title: '1. Connect Source Account',
+      description: 'Authorize the Spotify account you want to transfer data from',
       icon: <MusicNoteIcon sx={{ fontSize: 40, color: '#1DB954' }} />,
       completed: sourceAuthenticated,
       action: !sourceAuthenticated ? () => navigate('/auth/source') : null,
-      buttonText: 'Connetti Sorgente'
+      buttonText: 'Connect Source'
     },
     {
-      title: '2. Connetti Account Destinazione',
-      description: 'Autorizza l\'account Spotify verso cui trasferire i dati',
+      title: '2. Connect Target Account',
+      description: 'Authorize the Spotify account you want to transfer data to',
       icon: <SwapHorizIcon sx={{ fontSize: 40, color: '#1DB954' }} />,
       completed: destAuthenticated,
       action: sourceAuthenticated && !destAuthenticated ? () => navigate('/auth/destination') : null,
-      buttonText: 'Connetti Destinazione'
+      buttonText: 'Connect Target'
     },
     {
-      title: '3. Avvia Migrazione',
-      description: 'Seleziona e trasferisci playlist, brani salvati e artisti seguiti',
+      title: '3. Start Migration',
+      description: 'Select and transfer playlists, saved songs and followed artists',
       icon: <QueueMusicIcon sx={{ fontSize: 40, color: '#1DB954' }} />,
       completed: sourceAuthenticated && destAuthenticated,
       action: sourceAuthenticated && destAuthenticated ? () => navigate('/preview') : null,
-      buttonText: 'Inizia Migrazione'
+      buttonText: 'Start Migration'
     }
   ];
 
   const features = [
     {
       icon: <AutoAwesomeIcon sx={{ fontSize: 48, color: '#1DB954' }} />,
-      title: 'Migrazione Completa',
-      description: 'Trasferisci playlist, brani salvati, artisti seguiti e molto altro'
+      title: 'Complete Migration',
+      description: 'Transfer playlists, saved songs, followed artists and more'
     },
     {
       icon: <SecurityIcon sx={{ fontSize: 48, color: '#1DB954' }} />,
-      title: 'Sicuro e Privato',
-      description: 'Utilizziamo l\'API ufficiale Spotify. I tuoi dati non vengono mai memorizzati'
+      title: 'Safe and Private',
+      description: 'We use the official Spotify API. Your data is never stored.'
     },
     {
       icon: <SpeedIcon sx={{ fontSize: 48, color: '#1DB954' }} />,
-      title: 'Veloce e Affidabile',
-      description: 'Processo di migrazione ottimizzato con gestione intelligente degli errori'
+      title: 'Fast and Reliable',
+      description: 'Optimized migration process with intelligent error handling'
     }
   ];
 
@@ -103,7 +103,7 @@ const Home = ({ authStatus }) => {
             lineHeight: 1.4
           }}
         >
-          Trasferisci facilmente playlist, brani salvati e artisti seguiti tra account Spotify diversi
+          Easily transfer playlists, saved songs, and followed artists between different Spotify accounts
         </Typography>
         
         {/* Progress Bar */}
@@ -192,7 +192,7 @@ const Home = ({ authStatus }) => {
                 ) : (
                   <Chip 
                     icon={step.completed ? <CheckCircleIcon /> : <RadioButtonUncheckedIcon />}
-                    label={step.completed ? "Completato" : "In attesa"}
+                    label={step.completed ? "Completed" : "Pending"}
                     color={step.completed ? "success" : "default"}
                     variant={step.completed ? "filled" : "outlined"}
                   />
@@ -221,7 +221,7 @@ const Home = ({ authStatus }) => {
           fontWeight="700"
           sx={{ mb: 4 }}
         >
-          Perché scegliere il nostro strumento?
+          Why choose our tool?
         </Typography>
         
         <Grid container spacing={4}>
@@ -266,7 +266,7 @@ const Home = ({ authStatus }) => {
               transition: 'all 0.3s ease'
             }}
           >
-            🚀 Inizia Ora
+            🚀 Start Now
           </Button>
         ) : sourceAuthenticated && !destAuthenticated ? (
           <Button 
@@ -283,7 +283,7 @@ const Home = ({ authStatus }) => {
               color: 'black'
             }}
           >
-            Connetti Account Destinazione
+            Connect Target Account
           </Button>
         ) : sourceAuthenticated && destAuthenticated ? (
           <Button 
@@ -300,15 +300,15 @@ const Home = ({ authStatus }) => {
               color: 'black'
             }}
           >
-            ✨ Continua alla Migrazione
+            ✨ Continue to Migrate
           </Button>
         ) : null}
       </Box>
       
       <Box sx={{ mt: 6, textAlign: 'center' }}>
         <Typography variant="body2" color="text.secondary" sx={{ opacity: 0.7 }}>
-          🔒 Questo strumento utilizza l'API ufficiale di Spotify e trasferisce i tuoi dati in modo sicuro.<br/>
-          Non memorizziamo alcuna informazione personale o dati Spotify.
+          🔒 This tool uses the official Spotify API and transfers your data securely.<br/>
+          We do not store any personal information or Spotify data.
         </Typography>
       </Box>
     </Container>
