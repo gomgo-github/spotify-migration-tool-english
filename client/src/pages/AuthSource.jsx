@@ -39,17 +39,17 @@ const AuthSource = () => {
             if (response.data.destAuthenticated) {
               navigate('/preview');
             } else {
-              // Reindirizzamento alla pagina dell'account destinatario con un messaggio chiaro
+              // Redirect to the recipient account page with a clear message
               navigate('/auth/destination');
             }
           } else {
-            setError('Autenticazione fallita. Riprova.');
+            setError('Authentication failed. Please try again.');
           }
         })
         .catch(err => {
           console.error('Error checking auth status:', err);
           setLoading(false);
-          setError('Errore durante il controllo dello stato di autenticazione');
+          setError('Error checking authentication status');
         });
     }
   }, [navigate]);
@@ -60,7 +60,7 @@ const AuthSource = () => {
     window.location.href = '/api/auth/source/login';
   };
 
-  const steps = ['Connetti Sorgente', 'Connetti Destinazione', 'Migrazione'];
+  const steps = ['Connect Source', 'Connect Destination', 'Migration'];
 
   if (loading) {
     return (
@@ -90,10 +90,10 @@ const AuthSource = () => {
             />
           </Box>
           <Typography variant="h5" sx={{ mb: 1, fontWeight: 600 }}>
-            Autenticazione in corso...
+            Authentication in progress...
           </Typography>
           <Typography variant="body1" color="text.secondary">
-            Ti stiamo reindirizzando a Spotify per autorizzare l'accesso
+            We are redirecting you to Spotify to authorize access
           </Typography>
         </Card>
       </Container>
@@ -172,7 +172,7 @@ const AuthSource = () => {
                   backgroundClip: 'text'
                 }}
               >
-                Connetti Account Sorgente
+                Connect Source Account
               </Typography>
             </Box>
             
@@ -182,7 +182,7 @@ const AuthSource = () => {
               color="text.secondary"
               sx={{ mb: 4, lineHeight: 1.6 }}
             >
-              Prima di tutto, connetti il tuo account Spotify <strong>sorgente</strong> - quello da cui vuoi trasferire i dati.
+              First of all, connect your Spotify <strong>source</strong> account - the one you want to transfer data from.
             </Typography>
             
             {error && (
@@ -203,11 +203,11 @@ const AuthSource = () => {
             <Box sx={{ mb: 4 }}>
               <Typography variant="body1" color="text.secondary" paragraph>
                 <SecurityIcon sx={{ verticalAlign: 'middle', mr: 1, color: '#1DB954' }} />
-                Utilizziamo l'autenticazione OAuth2 di Spotify per garantire la massima sicurezza
+                We use Spotify OAuth2 authentication to ensure maximum security
               </Typography>
               <Typography variant="body1" color="text.secondary">
                 <CheckCircleIcon sx={{ verticalAlign: 'middle', mr: 1, color: '#1DB954' }} />
-                I tuoi dati rimangono sempre sicuri e non vengono mai memorizzati sui nostri server
+                Your data always remains safe and is never stored on our servers.
               </Typography>
             </Box>
             
@@ -233,12 +233,12 @@ const AuthSource = () => {
                 transition: 'all 0.3s ease'
               }}
             >
-              🚀 Connetti a Spotify
+              🚀 Connect to Spotify
             </Button>
             
             <Box sx={{ mt: 4 }}>
               <Typography variant="body2" color="text.secondary" sx={{ opacity: 0.8 }}>
-                Verrai reindirizzato a Spotify per autorizzare l'accesso in modo sicuro
+                You will be redirected to Spotify to securely authorize access.
               </Typography>
             </Box>
           </Paper>
