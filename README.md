@@ -2,70 +2,74 @@
 
 <div align="center">
 
-![Spotify Migration Tool](https://img.shields.io/badge/Spotify-Migration%20Tool-1DB954?style=for-the-badge&logo=spotify&logoColor=white)
-![Version](https://img.shields.io/badge/version-2.0.0-blue?style=for-the-badge)
+![Spotify Migration Tool](https://img.shields.io/badge/Spotify-Migration%20Tool%20Translated-1DB954?style=for-the-badge\&logo=spotify\&logoColor=white)
+![Version](https://img.shields.io/badge/version-2.0.1-blue?style=for-the-badge)
 ![License](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)
 
-**🚀 Migra facilmente playlist, brani salvati e artisti seguiti tra account Spotify diversi**
+**🚀 Easily migrate playlists, saved tracks, and followed artists between different Spotify accounts**
 
-*Un'applicazione web moderna e sicura per trasferire la tua libreria musicale*
+*A modern and secure web app to transfer your music library*
 
 </div>
 
 ---
 
-## 📋 Indice
+## 📋 Index
 
-- [✨ Caratteristiche](#-caratteristiche)
-- [🎯 Cosa puoi migrare](#-cosa-puoi-migrare)
-- [🚀 Installazione e Setup](#-installazione-e-setup)
-- [🎮 Come Usare l'App](#-come-usare-lapp)
-- [🛠️ Troubleshooting](#️-troubleshooting)
-- [❓ FAQ](#-faq)
-
----
-
-## ✨ Caratteristiche
-
-### 🚀 **Funzionalità Principali**
-- ✅ **Architettura Single-App** - Una sola configurazione Spotify
-- ✅ **Autenticazione Sicura** - OAuth2 + refresh automatico token
-- ✅ **Zero Perdite** - Controllo duplicati intelligente
-- ✅ **Interfaccia Moderna** - Design responsive con Material-UI
-- ✅ **Logging Dettagliato** - Monitoraggio completo delle operazioni
-- ✅ **Gestione Errori** - Recovery automatico e retry intelligente
+* [✨ Features](#-features)
+* [🎯 What You Can Migrate](#-what-you-can-migrate)
+* [🚀 Installation & Setup](#-installation--setup)
+* [🎮 How to Use the App](#-how-to-use-the-app)
+* [🛠️ Troubleshooting](#️-troubleshooting)
+* [❓ FAQ](#-faq)
 
 ---
 
-## 🎯 Cosa puoi migrare
+## ✨ Features
+
+### 🚀 **Key Features**
+
+* ✅ **Single-App Architecture** - Only one Spotify app configuration needed
+* ✅ **Secure Authentication** - OAuth2 + automatic token refresh
+* ✅ **Zero Loss** - Smart duplicate checking
+* ✅ **Modern Interface** - Responsive design with Material-UI
+* ✅ **Detailed Logging** - Full monitoring of operations
+* ✅ **Error Handling** - Automatic recovery and intelligent retries
+
+---
+
+## 🎯 What You Can Migrate
 
 <table>
 <tr>
 <td width="33%">
 
-### 🎵 **Playlist**
-- ✅ Tutte le playlist (pubbliche e private)
-- ✅ Nomi e descrizioni originali
-- ✅ Ordine dei brani mantenuto
-- ✅ Immagini personalizzate delle playlist
+### 🎵 **Playlists**
+
+* ✅ All playlists (public and private)
+* ✅ Original names and descriptions
+* ✅ Track order preserved
+* ✅ Custom playlist images
 
 </td>
 <td width="33%">
 
-### 💚 **Brani Salvati** 
-- ✅ Tutti i brani "Mi piace"
-- ✅ Fino a 10.000+ brani
-- ✅ Controllo duplicati automatico
-- ✅ Gestione batch intelligente
+### 💚 **Saved Tracks**
+
+* ✅ All "Liked" songs
+* ✅ Over 10,000 tracks supported
+* ✅ Automatic duplicate checking
+* ✅ Smart batch handling
 
 </td>
 <td width="33%">
 
-### 👨‍🎤 **Artisti Seguiti**
-- ✅ Tutti gli artisti che segui
-- ✅ Migrazione batch ottimizzata
-- ✅ Verifica automatica duplicati
-- ✅ Processo veloce e affidabile
+### 👨‍🎤 **Followed Artists**
+
+* ✅ All followed artists
+* ✅ Optimized batch migration
+* ✅ Automatic duplicate detection
+* ✅ Fast and reliable process
 
 </td>
 </tr>
@@ -73,254 +77,280 @@
 
 ---
 
-## 🚀 Installazione e Setup
+## 🚀 Installation & Setup
 
-### 📋 **Prerequisiti**
+### 📋 **Prerequisites**
 
-**Ti servono:**
-- **Node.js** (versione LTS): [Scarica qui](https://nodejs.org/)
-- **Due account Spotify** (gratuiti o premium)
-- **Una app Spotify** nel Developer Dashboard
+**You will need:**
+
+* **Node.js** (LTS version): [Download here](https://nodejs.org/)
+* **Two Spotify accounts** (free or premium)
+* **A Spotify App** in the Developer Dashboard
 
 ---
 
-### 🌟 **Step 1: Scaricare l'Applicazione**
+### 🌟 **Step 1: Download the App**
 
-**Metodo 1 - Download ZIP:**
-1. Vai su https://github.com/tomzdev/spotify-migration-tool
-2. Clicca **"Code"** → **"Download ZIP"**
-3. Estrai nella cartella che preferisci
+**Method 1 - Download ZIP:**
 
-**Metodo 2 - Git Clone:**
+1. Visit [https://github.com/gomgo-github/spotify-migration-tool-english](https://github.com/gomgo-github/spotify-migration-tool-english)
+2. Click **"Code"** → **"Download ZIP"**
+3. Extract it into your preferred folder
+
+**Method 2 - Git Clone:**
+
 ```bash
-git clone https://github.com/tomzdev/spotify-migration-tool.git
-cd spotify-migration-tool
+git clone https://github.com/gomgo-github/spotify-migration-tool-english.git
+cd spotify-migration-tool-english
 ```
 
 ---
 
-### 🎵 **Step 2: Configurare App Spotify**
+### 🎵 **Step 2: Configure Spotify App**
 
-> **⚠️ IMPORTANTE**: Questo è il passaggio più critico!
+> **⚠️ IMPORTANT**: This is the most critical step!
 
-#### **2.1 Crea l'App Spotify**
+#### **2.1 Create the Spotify App**
 
-1. **Vai su**: [Spotify Developer Dashboard](https://developer.spotify.com/dashboard/)
-2. **Accedi** con qualsiasi account Spotify
-3. **Clicca** su **"Create app"**
+1. **Go to**: [Spotify Developer Dashboard](https://developer.spotify.com/dashboard/)
+2. **Log in** with any Spotify account
+3. **Click** on **"Create app"**
 
-#### **2.2 Configura l'App**
+#### **2.2 Configure the App**
 
-Compila i campi:
+Fill in the fields:
 
-| Campo | Valore |
-|-------|--------|
-| **App name** | `Spotify Migration Tool` |
-| **App description** | `Tool per migrare playlist tra account Spotify` |
-| **Website** | `http://localhost:5000` |
-| **Redirect URI** | Vedi sotto ⬇️ |
+| Field               | Value                                                |
+| ------------------- | ---------------------------------------------------- |
+| **App name**        | `Spotify Migration Tool`                             |
+| **App description** | `Tool to migrate playlists between Spotify accounts` |
+| **Website**         | `http://[::1]:5000`                              |
+| **Redirect URI**    | See below ⬇️                                         |
 
-#### **2.3 Aggiungi i Redirect URI** 
+#### **2.3 Add Redirect URIs**
 
-> **🔑 CRUCIALE**: Aggiungi ESATTAMENTE questi due URI:
+> **🔑 CRUCIAL**: Add EXACTLY these two URIs:
 
-1. `http://localhost:5000/api/auth/source/callback`
-2. `http://localhost:5000/api/auth/destination/callback`
+1. `http://[::1]:5000/api/auth/source/callback`
+2. `http://[::1]:5000/api/auth/destination/callback`
 
-#### **2.4 Ottieni le Credenziali**
+#### **2.4 Get the Credentials**
 
-1. **Salva** l'app
-2. Vai su **"Settings"**
-3. **Copia** il **Client ID** e **Client Secret**
+1. **Save** the app
+2. Go to **"Settings"**
+3. **Copy** the **Client ID** and **Client Secret**
 
-#### **2.5 Aggiungi Utenti di Test**
+#### **2.5 Add Test Users**
 
-1. Vai su **"User Management"**
-2. **Aggiungi** l'email dell'account **sorgente**
-3. **Aggiungi** l'email dell'account **destinazione**
+1. Go to **"User Management"**
+2. **Add** the email of the **source** account
+3. **Add** the email of the **destination** account
 
 ---
 
-### ⚙️ **Step 3: Configurazione Locale**
+### ⚙️ **Step 3: Local Configuration**
 
-#### **3.1 Installa le Dipendenze**
+#### **3.1 Install Dependencies**
 
 ```bash
-# Installa dipendenze backend
+# Install backend dependencies
 npm install
 
-# Installa dipendenze frontend e build
+# Install frontend dependencies and build
 cd client
 npm install
 npm run build
 cd ..
 ```
 
-#### **3.2 Configura Environment**
+#### **3.2 Configure Environment**
 
-**Metodo veloce:**
-1. Copia il file `config-example.env` 
-2. Rinominalo in `.env`
-3. Modifica i valori:
+(Recommended) **Quick method:**
+
+1. Copy the `config-example.env` file
+2. Rename it to `.env`
+3. Edit the following values:
 
 ```env
-# Sostituisci con i tuoi valori reali
-SPOTIFY_CLIENT_ID=il_tuo_client_id
-SPOTIFY_CLIENT_SECRET=il_tuo_client_secret
+# Replace with your actual Client ID and secret preiously copied
+SPOTIFY_CLIENT_ID=your_client_id
+SPOTIFY_CLIENT_SECRET=your_client_secret
 
-# NON modificare questi
-SPOTIFY_REDIRECT_URI=http://localhost:5000/api/auth/source/callback
-DEST_REDIRECT_URI=http://localhost:5000/api/auth/destination/callback
+# DO NOT modify these
+SPOTIFY_REDIRECT_URI=http://[::1]:5000/api/auth/source/callback
+DEST_REDIRECT_URI=http://[::1]:5000/api/auth/destination/callback
 
-# Genera una stringa casuale lunga
-SESSION_SECRET=stringa_casuale_molto_lunga_e_sicura
+# Generate a long random string of at least 32 characters long
+SESSION_SECRET=very_long_and_secure_random_string
 
 PORT=5000
 ```
 
 ---
 
-### 🚀 **Step 4: Avviare l'Applicazione**
+### 🚀 **Step 4: Start the App**
 
 ```bash
 npm start
 ```
 
-**Output atteso:**
+**Expected output:**
+
 ```
-🚀 Server avviato su porta 5000
-🎵 Spotify Migration Tool pronto!
-🌐 Apri: http://localhost:5000
+🚀 Server started on port 5000
+🎵 Spotify Migration Tool ready!
+🌐 Open: http://[::1]:5000
 ```
 
-**Apri il browser su:** http://localhost:5000
+**Open your browser at:** [http://[::1]:5000](http://[::1]:5000)
 
 ---
 
-## 🎮 Come Usare l'App
+## 🎮 How to Use the App
 
-### 🏠 **Interfaccia Principale**
+### 🏠 **Main Interface**
 
-Quando apri l'app vedrai:
+When you open the app, you’ll see:
 
 ```
 🎵 Spotify Migration Tool
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-📊 Stato Configurazione: ░░░░░░░░░░ 0%
+📊 Configuration Status: ░░░░░░░░░░ 0%
 
-🔸 Passaggio 1: Connetti Account Sorgente     [ Non Connesso ]
-🔸 Passaggio 2: Connetti Account Destinazione [ Non Connesso ]  
-🔸 Passaggio 3: Inizia Migrazione            [ Non Disponibile ]
+🔸 Step 1: Connect Source Account     [ Not Connected ]
+🔸 Step 2: Connect Destination Account [ Not Connected ]  
+🔸 Step 3: Start Migration            [ Not Available ]
 ```
 
-### 1️⃣ **Connetti Account Sorgente**
+### 1️⃣ **Connect Source Account**
 
-1. **Clicca** su **"Connetti Account Sorgente"**
-2. **Accedi** con l'account da cui vuoi **copiare** i dati
-3. **Autorizza** l'applicazione
+1. **Click** on **"Connect Source Account"**
+2. **Log in** with the account you want to **copy from**
+3. **Authorize** the app
 
-### 2️⃣ **Connetti Account Destinazione**
+### 2️⃣ **Connect Destination Account**
 
-1. **Clicca** su **"Connetti Account Destinazione"**
-2. **⚠️ IMPORTANTE**: Se vedi l'account precedente, clicca **"Non sei tu?"**
-3. **Accedi** con l'account **destinazione**
-4. **Autorizza** l'applicazione
+1. **Click** on **"Connect Destination Account"**
+2. **⚠️ IMPORTANT**: If you see the previous account, click **"Not you?"**
+3. **Log in** with the **destination** account
+4. **Authorize** the app
 
-### 3️⃣ **Avvia la Migrazione**
+### 3️⃣ **Start Migration**
 
-1. **Clicca** su **"Inizia Migrazione"**
-2. **Seleziona** cosa migrare:
-   - ☑️ Playlist
-   - ☑️ Brani Salvati
-   - ☑️ Artisti Seguiti
+1. **Click** on **"Start Migration"**
 
-3. **Clicca** **"Avvia Migrazione"**
+2. **Choose** what to migrate:
 
-### 📊 **Monitoraggio Progresso**
+   * ☑️ Playlists
+   * ☑️ Saved Tracks
+   * ☑️ Followed Artists
 
-Durante la migrazione vedrai aggiornamenti in tempo reale:
+3. **Click** **"Start Migration"**
+
+### 📊 **Progress Monitoring**
+
+During migration, you’ll see real-time updates:
 
 ```
-🎵 Migrazione in Corso...
+🎵 Migration in Progress...
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-📋 Playlist:       ████████████░░░░░░░░ 15/27 (55%)
-💚 Brani Salvati:  ██████░░░░░░░░░░░░░░ 312/1247 (25%)  
-👨‍🎤 Artisti:       ████████████████████ 89/89 (100%) ✅
+📋 Playlists:       ████████████░░░░░░░░ 15/27 (55%)
+💚 Saved Tracks:    ██████░░░░░░░░░░░░░░ 312/1247 (25%)  
+👨‍🎤 Artists:        ████████████████████ 89/89 (100%) ✅
 
-⏱️ Tempo trascorso: 2m 34s
+⏱️ Elapsed Time: 2m 34s
 ```
 
 ---
 
 ## 🛠️ Troubleshooting
 
-### 🔴 **Errori Comuni**
+### 🔴 **Common Errors**
 
-**❌ "INVALID_CLIENT: Invalid redirect URI"**
-- **Problema**: Redirect URI non configurati correttamente
-- **Soluzione**: Verifica che nell'app Spotify ci siano ESATTAMENTE:
-  - `http://localhost:5000/api/auth/source/callback`
-  - `http://localhost:5000/api/auth/destination/callback`
+**❌ "INVALID\_CLIENT: Invalid redirect URI"**
 
-**❌ "403 Forbidden" durante l'autenticazione**
-- **Problema**: Account non aggiunto come utente di test
-- **Soluzione**: Vai su User Management e aggiungi l'email dell'account
+* **Cause**: Redirect URIs not set up correctly
+* **Fix**: Make sure you added EXACTLY these in your Spotify app:
+
+  * `http://[::1]:5000/api/auth/source/callback`
+  * `http://[::1]:5000/api/auth/destination/callback`
+
+**❌ "403 Forbidden" during authentication**
+
+* **Cause**: Account not added as test user
+* **Fix**: Go to User Management and add the account's email address
 
 **❌ "Cannot connect to server"**
-- **Problema**: Porta 5000 occupata
-- **Soluzione**: Cambia porta nel file `.env` (es. `PORT=3000`)
 
-**❌ App si chiude o errori NPM**
-- **Problema**: Dipendenze corrotte
-- **Soluzione**: 
+* **Cause**: Port 5000 is occupied
+* **Fix**: Change port in `.env` file (e.g., `PORT=3000`), remember to change the port on the redirect URIs (e.g. `http://[::1]:3000/...`)
+
+**❌ App crashes or NPM errors**
+
+* **Cause**: Corrupted dependencies
+* **Fix**:
+
   ```bash
   rm -rf node_modules client/node_modules
   npm install
   cd client && npm install && npm run build && cd ..
   ```
 
-### 🟡 **Avvertimenti Non Critici**
+### 🟡 **Non-Critical Warnings**
 
 **⚠️ "Source and destination accounts are the same"**
-- Non grave, ma inutile migrare da un account a se stesso
+
+* Not critical, but pointless to migrate between the same account
 
 **⚠️ "Some tracks could not be migrated"**
-- Normale per brani non disponibili nella regione o rimossi da Spotify
+
+* Normal for tracks unavailable in your region or removed from Spotify
 
 ---
 
 ## ❓ FAQ
 
-**❓ Posso usare account gratuiti?**
-- Sì! Funziona con account gratuiti e premium
+**❓ Can I use free accounts?**
 
-**❓ I miei dati sono sicuri?**
-- Assolutamente sì. L'app non salva credenziali, usa solo API ufficiali Spotify
+* Yes! Works with both free and premium accounts
 
-**❓ Quanti brani posso migrare?**
-- Teoricamente illimitati (gestisce automaticamente migliaia di brani)
+**❓ Is my data safe?**
 
-**❓ Cosa succede se interrompo la migrazione?**
-- Puoi fermare e riavviare quando vuoi, evita automaticamente i duplicati
+* Absolutely. The app doesn't store credentials and only uses official Spotify APIs, every runs locally on your computer
 
-**❓ Funziona su Mac/Linux?**
-- Sì, funziona su qualsiasi sistema con Node.js
+**❓ How many songs can I migrate?**
 
-**❓ Posso migrare tra paesi diversi?**
-- Sì, ma alcuni brani potrebbero non essere disponibili per motivi di licensing
+* Theoretically unlimited (it handles thousands of tracks automatically)
+
+**❓ What if I stop the migration?**
+
+* You can pause and resume anytime, duplicates are avoided automatically
+
+**❓ Does it work on Mac/Linux?**
+
+* Yes, works on any system with Node.js
+
+**❓ Can I migrate between different countries?**
+
+* Yes, but some songs might not be available due to licensing restrictions
 
 ---
 
-## 🆘 Supporto
+## 🆘 Support
 
-**Hai problemi?**
-- 🐛 [Segnala Bug](https://github.com/tomzdev/spotify-migration-tool/issues)
-- 💬 [Discussioni](https://github.com/tomzdev/spotify-migration-tool/discussions)
-- 📚 [Documentazione Completa](https://github.com/tomzdev/spotify-migration-tool/wiki)
+**Need help?**
 
-**Prima di chiedere aiuto:**
-1. Controlla questa guida
-2. Verifica la sezione Troubleshooting
-3. Cerca nelle Issues esistenti 
+* 🐛 [Report a Bug to original developer](https://github.com/tomzdev/spotify-migration-tool/issues)
+* 💬 [Discussions](https://github.com/tomzdev/spotify-migration-tool/discussions)
+* 📚 [Full Documentation](https://github.com/tomzdev/spotify-migration-tool/wiki)
+
+**Before asking for help:**
+
+1. Check this guide
+2. Read the Troubleshooting section
+3. Search existing issues both in [Original Project](https://github.com/tomzdev/spotify-migration-tool/) and [Translated Project](https://github.com/gomgo-github/spotify-migration-tool-english.git)
+
+
+***This is a translation by [gomgo-github](https://github.com/gomgo-github) to allow people who doesn't understand Italian to use it, the original project belongs to [tomzdev](https://github.com/tomzdev)***
