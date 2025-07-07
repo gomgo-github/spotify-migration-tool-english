@@ -1,275 +1,275 @@
-# 📸 Guida Visiva - Spotify Migration Tool
+# 📸 Visual Guide - Spotify Migration Tool
 
-> **💡 Suggerimento**: Questa guida ti aiuterà a navigare visivamente attraverso i passaggi principali
+> **💡 Tip**: This guide will help you visually navigate through the main steps
 
 ---
 
-## 🖼️ Screenshot dell'Interfaccia
+## 🖼️ Interface Screenshot
 
-### 🏠 **1. Pagina Principale**
+### 🏠 **1. Home Page**
 
-Quando apri l'app vedrai:
+When you open the app you'll see:
 
 ```
-   🎵 Spotify Migration Tool                    👤 Menu Utente
+   🎵 Spotify Migration Tool                    👤 User Menu
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-           🚀 Migra la tua libreria Spotify tra account diversi
-                      Design moderno • Sicuro • Veloce
+           🚀 Migrate your Spotify library between accounts
+                      Modern design • Secure • Fast
 
-  📊 Progresso Configurazione: ░░░░░░░░░░ 0%
+  📊 Setup Progress: ░░░░░░░░░░ 0%
 
   ┌─────────────────────────────────────────────────────────────┐
-  │ 🔸 Step 1: Connetti Account Sorgente     [ Non Connesso ]   │
+  │ 🔸 Step 1: Connect Source Account     [ Not Connected ]     │
   │                                                             │
-  │ 📱 Da quale account vuoi copiare i dati?                   │
-  │                          [🔗 Connetti]                     │
+  │ 📱 Which account do you want to copy data from?             │
+  │                          [🔗 Connect]                       │
   └─────────────────────────────────────────────────────────────┘
 
   ┌─────────────────────────────────────────────────────────────┐
-  │ 🔸 Step 2: Connetti Account Destinazione [ Non Connesso ]   │
+  │ 🔸 Step 2: Connect Target Account     [ Not Connected ]     │
   │                                                             │
-  │ 📱 Dove vuoi trasferire i dati?                           │
-  │                          [🔗 Connetti]                     │
+  │ 📱 Where do you want to transfer the data?                  │
+  │                          [🔗 Connect]                       │
   └─────────────────────────────────────────────────────────────┘
 
   ┌─────────────────────────────────────────────────────────────┐
-  │ 🔸 Step 3: Inizia Migrazione            [ Non Disponibile ] │
+  │ 🔸 Step 3: Start Migration             [ Not Available ]    │
   │                                                             │
-  │ 🚀 Trasferisci playlist, brani e artisti                  │
-  │                          [⏸️ In Attesa]                    │
+  │ 🚀 Transfer playlists, tracks, and artists                  │
+  │                          [⏸️ Waiting]                       │
   └─────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-### 🔐 **2. Pagina di Autenticazione Spotify**
+### 🔐 **2. Spotify Authentication Page**
 
-Quando clicchi "Connetti", vedrai la pagina ufficiale Spotify:
+When you click "Connect", you’ll see the official Spotify page:
 
 ```
-   🎵 Spotify                                              ✕ Chiudi
+   🎵 Spotify                                              ✕ Close
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-           Spotify Migration Tool vuole accedere al tuo account
+           Spotify Migration Tool wants to access your account
 
   ┌─────────────────────────────────────────────────────────────┐
   │                                                             │
-  │  📱 Accedi a Spotify                                       │
+  │  📱 Log in to Spotify                                       │
   │                                                             │
-  │  📧 Email o username                                       │
-  │  ┌─────────────────────────────────────────────────────┐   │
-  │  │ il_tuo_username@example.com                         │   │
-  │  └─────────────────────────────────────────────────────┘   │
+  │  📧 Email or username                                       │
+  │  ┌─────────────────────────────────────────────────────┐    │
+  │  │ your_username@example.com                           │    │
+  │  └─────────────────────────────────────────────────────┘    │
   │                                                             │
-  │  🔒 Password                                               │
-  │  ┌─────────────────────────────────────────────────────┐   │
-  │  │ ••••••••••••••••                                   │   │
-  │  └─────────────────────────────────────────────────────┘   │
+  │  🔒 Password                                                │
+  │  ┌─────────────────────────────────────────────────────┐    │
+  │  │ ••••••••••••••••                                    │    │
+  │  └─────────────────────────────────────────────────────┘    │
   │                                                             │
-  │                      [🔐 Accedi]                          │
+  │                      [🔐 Log In]                            │
   │                                                             │
-  │  ❓ Non sei tu? Cambia account                             │
+  │  ❓ Not you? Switch account                                 │
   │                                                             │
   └─────────────────────────────────────────────────────────────┘
 
-   ⚠️  IMPORTANTE: Se vedi ancora l'account precedente, 
-       clicca "Non sei tu?" per cambiare account!
+   ⚠️  IMPORTANT: If you still see the previous account, 
+       click "Not you?" to switch account!
 ```
 
 ---
 
-### ✅ **3. Account Connessi**
+### ✅ **3. Connected Accounts**
 
-Dopo aver connesso entrambi gli account:
+After connecting both accounts:
 
 ```
    🎵 Spotify Migration Tool                    👤 tomzx ▼
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-           🚀 Migra la tua libreria Spotify tra account diversi
-                      Design moderno • Sicuro • Veloce
+           🚀 Migrate your Spotify library between accounts
+                      Modern design • Secure • Fast
 
-  📊 Progresso Configurazione: ██████████ 100%
+  📊 Setup Progress: ██████████ 100%
 
   ┌─────────────────────────────────────────────────────────────┐
-  │ ✅ Step 1: Account Sorgente Connesso   [ tomzx_music ]      │
+  │ ✅ Step 1: Source Account Connected   [ tomzx_music ]       │
   │                                                             │
-  │ 📊 27 playlist • 1,247 brani salvati • 89 artisti seguiti │
-  │                       [🔗 Riconnetti]                      │
+  │ 📊 27 playlists • 1,247 liked songs • 89 followed artists   │
+  │                       [🔗 Reconnect]                        │
   └─────────────────────────────────────────────────────────────┘
 
   ┌─────────────────────────────────────────────────────────────┐
-  │ ✅ Step 2: Account Destinazione Connesso [ tom_backup ]     │
+  │ ✅ Step 2: Target Account Connected   [ tom_backup ]        │
   │                                                             │
-  │ 📊 3 playlist • 15 brani salvati • 12 artisti seguiti     │
-  │                       [🔗 Riconnetti]                      │
+  │ 📊 3 playlists • 15 liked songs • 12 followed artists       │
+  │                       [🔗 Reconnect]                        │
   └─────────────────────────────────────────────────────────────┘
 
   ┌─────────────────────────────────────────────────────────────┐
-  │ ✅ Step 3: Inizia Migrazione            [ 🚀 PRONTO ]       │
+  │ ✅ Step 3: Start Migration             [ 🚀 READY ]         │
   │                                                             │
-  │ 🚀 Tutto pronto per la migrazione!                        │
-  │                    [🚀 Inizia Migrazione]                  │
+  │ 🚀 Everything is ready for migration!                       │
+  │                    [🚀 Start Migration]                     │
   └─────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-### 🎛️ **4. Schermata di Selezione Migrazione**
+### 🎛️ **4. Migration Selection Screen**
 
-Quando clicchi "Inizia Migrazione":
+When you click "Start Migration":
 
 ```
-   📊 Seleziona cosa migrare                    ✕ Chiudi
+   📊 Select what to migrate                   ✕ Close
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-  📋 Cosa vuoi trasferire?
+  📋 What do you want to transfer?
 
   ┌─────────────────────────────────────────────────────────────┐
-  │ ☑️  🎵 Playlist (27 trovate)                               │
-  │     • Estate 2024, Workout Mix, Chill Vibes...            │
-  │     • Include nomi, descrizioni e immagini                │
+  │ ☑️  🎵 Playlists (27 found)                                 │
+  │     • Summer 2024, Workout Mix, Chill Vibes...              │
+  │     • Includes names, descriptions, and images              │
   │                                                             │
-  │ ☑️  💚 Brani Salvati (1,247 trovati)                       │
-  │     • Tutti i tuoi "Mi piace"                             │
-  │     • Preserva l'ordine originale                         │
+  │ ☑️  💚 Liked Songs (1,247 found)                            │
+  │     • All your "Likes"                                      │
+  │     • Preserves original order                              │
   │                                                             │
-  │ ☑️  👨‍🎤 Artisti Seguiti (89 trovati)                       │
-  │     • Tutti gli artisti che segui                         │
-  │     • Trasferimento veloce batch                          │
+  │ ☑️  👨‍🎤 Followed Artists (89 found)                          │
+  │     • All the artists you follow                            │
+  │     • Fast batch transfer                                   │
   └─────────────────────────────────────────────────────────────┘
 
-  🔧 Opzioni Avanzate:
+  🔧 Advanced Options:
   ┌─────────────────────────────────────────────────────────────┐
-  │ ☑️ Segui playlist esistenti invece di duplicarle          │
-  │ ☑️ Trasferisci immagini personalizzate delle playlist     │
-  │ ☑️ Salta automaticamente i duplicati                      │
-  │ ☑️ Crea log dettagliato delle operazioni                  │
+  │ ☑️ Follow existing playlists instead of duplicating         │
+  │ ☑️ Transfer custom playlist images                          │
+  │ ☑️ Automatically skip duplicates                            │
+  │ ☑️ Create a detailed log of operations                      │
   └─────────────────────────────────────────────────────────────┘
 
-               [❌ Annulla]    [🚀 Avvia Migrazione]
+               [❌ Cancel]    [🚀 Start Migration]
 ```
 
 ---
 
-### 📊 **5. Migrazione in Corso**
+### 📊 **5. Migration In Progress**
 
-Durante il processo di migrazione:
+During the migration process:
 
 ```
-   🎵 Migrazione in Corso...                    ⏸️ Pausa | ⏹️ Stop
+   🎵 Migration In Progress...                ⏸️ Pause | ⏹️ Stop
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-  ⏱️  Tempo trascorso: 3m 42s                 📊 Velocità: ~12 brani/sec
+  ⏱️  Elapsed Time: 3m 42s                📊 Speed: ~12 songs/sec
 
   ┌─────────────────────────────────────────────────────────────┐
-  │ 📋 Playlist                                                 │
-  │ ████████████████░░░░ 18/27 (67%)                           │
-  │ 📊 Stato: Migrazione "Workout Mix" (156/200 brani)        │
+  │ 📋 Playlists                                                │
+  │ ████████████████░░░░ 18/27 (67%)                            │
+  │ 📊 Status: Migrating "Workout Mix" (156/200 songs)          │
   │                                                             │
-  │ 💚 Brani Salvati                                           │
-  │ ████████░░░░░░░░░░░░ 423/1,247 (34%)                       │
-  │ 📊 Stato: Aggiunta brani... (batch 8/25)                  │
+  │ 💚 Liked Songs                                              │
+  │ ████████░░░░░░░░░░░░ 423/1,247 (34%)                        │
+  │ 📊 Status: Adding songs... (batch 8/25)                     │
   │                                                             │
-  │ 👨‍🎤 Artisti Seguiti                                        │
-  │ ████████████████████ 89/89 (100%) ✅                      │
-  │ 📊 Stato: Completato con successo!                        │
+  │ 👨‍🎤 Followed Artists                                         │
+  │ ████████████████████ 89/89 (100%) ✅                        │
+  │ 📊 Status: Completed successfully!                          │
   └─────────────────────────────────────────────────────────────┘
 
-  📋 Log in tempo reale:
+  📋 Live Log:
   ┌─────────────────────────────────────────────────────────────┐
-  │ [15:23:41] ✅ Playlist "Estate 2024" creata con successo   │
-  │ [15:23:43] ➕ Aggiunti 45/50 brani a "Estate 2024"        │
-  │ [15:23:45] ⚠️  5 brani non disponibili (saltati)           │
-  │ [15:23:47] ✅ Playlist "Workout Mix" creata                │
-  │ [15:23:49] ➕ Aggiungendo brani a "Workout Mix"...         │
-  │ [15:23:51] 📊 Progresso: 156/200 brani aggiunti           │
+  │ [15:23:41] ✅ Playlist "Summer 2024" created successfully   │
+  │ [15:23:43] ➕ Added 45/50 songs to "Summer 2024"            │
+  │ [15:23:45] ⚠️  5 songs unavailable (skipped)                │
+  │ [15:23:47] ✅ Playlist "Workout Mix" created                │
+  │ [15:23:49] ➕ Adding songs to "Workout Mix"...              │
+  │ [15:23:51] 📊 Progress: 156/200 songs added                 │
   └─────────────────────────────────────────────────────────────┘
 
-              [⏸️ Metti in Pausa]    [⏹️ Ferma Migrazione]
+              [⏸️ Pause]    [⏹️ Stop Migration]
 ```
 
 ---
 
-### 🎉 **6. Migrazione Completata**
+### 🎉 **6. Migration Complete**
 
-Al termine della migrazione:
+Once the migration is complete:
 
 ```
-   🎉 Migrazione Completata!                    📁 Scarica Log
+   🎉 Migration Complete!                      📁 Download Log
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-         🚀 La tua libreria è stata trasferita con successo!
+         🚀 Your library has been successfully transferred!
 
   ┌─────────────────────────────────────────────────────────────┐
-  │ 📊 Riepilogo Migrazione                                    │
+  │ 📊 Migration Summary                                        │
   │                                                             │
-  │ ✅ Playlist:      27/27 migrate (100%)                     │
-  │ ✅ Brani Salvati: 1,235/1,247 aggiunti (99.04%)           │
-  │ ✅ Artisti:       89/89 seguiti (100%)                     │
+  │ ✅ Playlists:      27/27 migrated (100%)                    │
+  │ ✅ Liked Songs:   1,235/1,247 added (99.04%)                │
+  │ ✅ Artists:        89/89 followed (100%)                    │
   │                                                             │
-  │ ⚠️  12 brani non disponibili (0.96%)                       │
-  │ ⏱️  Tempo totale: 8m 42s                                   │
+  │ ⚠️  12 songs unavailable (0.96%)                            │
+  │ ⏱️  Total time: 8m 42s                                      │
   │                                                             │
   └─────────────────────────────────────────────────────────────┘
 
-  🔍 Dettagli:
+  🔍 Details:
   ┌─────────────────────────────────────────────────────────────┐
-  │ 📋 Playlist create:                                        │
-  │ • Estate 2024 (45/50 brani)                               │
-  │ • Workout Mix (156/200 brani)                             │
-  │ • Chill Vibes (89/89 brani)                               │
-  │ • ... e altre 24 playlist                                 │
+  │ 📋 Created playlists:                                       │
+  │ • Summer 2024 (45/50 songs)                                 │
+  │ • Workout Mix (156/200 songs)                               │
+  │ • Chill Vibes (89/89 songs)                                 │
+  │ • ... and 24 other playlists                                │
   │                                                             │
-  │ ⚠️  Brani non migrati:                                     │
-  │ • 5 brani non disponibili nella tua regione               │
-  │ • 4 file locali (non trasferibili)                        │
-  │ • 3 brani rimossi da Spotify                              │
+  │ ⚠️  Non-migrated songs:                                     │
+  │ • 5 songs not available in your region                      │
+  │ • 4 local files (non-transferable)                          │
+  │ • 3 songs removed from Spotify                              │
   └─────────────────────────────────────────────────────────────┘
 
-     [📁 Scarica Report]  [🔄 Nuova Migrazione]  [🏠 Home]
+     [📁 Download Report]  [🔄 New Migration]  [🏠 Home]
 ```
 
 ---
 
-## 🎯 **Come Navigare tra le Schermate**
+## 🎯 **How to Navigate Between Screens**
 
-### **Flusso Normale**:
-1. **Home** → Connetti Account Sorgente → **Autenticazione Spotify**
-2. **Home** → Connetti Account Destinazione → **Autenticazione Spotify**  
-3. **Home** → Inizia Migrazione → **Selezione Contenuti**
-4. **Selezione** → Avvia → **Migrazione in Corso**
-5. **Migrazione** → **Completamento**
+### **Normal Flow**:
+1. **Home** → Connect Source Account → **Spotify Authentication**
+2. **Home** → Connect Target Account → **Spotify Authentication**
+3. **Home** → Start Migration → **Content Selection**
+4. **Selection** → Start → **Migration In Progress**
+5. **Migration** → **Completion**
 
-### **Elementi Interattivi**:
-- 🔗 **Pulsanti Connetti**: Aprono autenticazione Spotify
-- ☑️ **Checkbox**: Seleziona cosa migrare
-- 🚀 **Avvia Migrazione**: Inizia il processo
-- ⏸️ **Pausa/Stop**: Controlli durante migrazione
-- 📁 **Scarica**: Ottieni report dettagliato
-
----
-
-## 🔧 **Consigli per l'Uso**
-
-### **🎵 Per l'Autenticazione**:
-- Se vedi l'account sbagliato, clicca "Non sei tu?"
-- Usa sempre account diversi per sorgente e destinazione
-- Assicurati che entrambi gli account siano nei "utenti di test"
-
-### **📊 Durante la Migrazione**:
-- Non chiudere il browser durante il processo
-- La barra di progresso si aggiorna in tempo reale
-- I log mostrano ogni operazione in dettaglio
-- Puoi mettere in pausa e riprendere in qualsiasi momento
-
-### **🎯 Per Risultati Ottimali**:
-- Controlla sempre il riepilogo finale
-- Scarica il report per i dettagli
-- Alcuni brani potrebbero non essere disponibili (normale)
-- Le playlist mantengono nomi, descrizioni e immagini
+### **Interactive Elements**:
+- 🔗 **Connect Buttons**: Open Spotify authentication
+- ☑️ **Checkboxes**: Select what to migrate
+- 🚀 **Start Migration**: Begin the process
+- ⏸️ **Pause/Stop**: Migration controls
+- 📁 **Download**: Get detailed report
 
 ---
 
-*📸 **Nota**: Gli screenshot reali potrebbero variare leggermente in base al browser e alle dimensioni dello schermo* 
+## 🔧 **Usage Tips**
+
+### **🎵 For Authentication**:
+- If you see the wrong account, click "Not you?"
+- Always use different accounts for source and destination
+- Make sure both accounts are in the "test users" list
+
+### **📊 During Migration**:
+- Don’t close your browser during the process
+- The progress bar updates in real-time
+- Logs show each operation in detail
+- You can pause and resume anytime
+
+### **🎯 For Best Results**:
+- Always review the final summary
+- Download the report for details
+- Some songs might be unavailable (normal)
+- Playlists keep names, descriptions, and images
+
+---
+
+*📸 **Note**: Actual screenshots may vary slightly depending on browser and screen size*
