@@ -117,7 +117,7 @@ Compila i campi:
 |-------|--------|
 | **App name** | `Spotify Migration Tool` |
 | **App description** | `Tool per migrare playlist tra account Spotify` |
-| **Website** | `http://localhost:5000` |
+| **Website** | `http://[::1]:5000` |
 | **Redirect URI** | Vedi sotto ⬇️ |
 
 #### **2.3 Aggiungi i Redirect URI** 
@@ -169,8 +169,8 @@ SPOTIFY_CLIENT_ID=il_tuo_client_id
 SPOTIFY_CLIENT_SECRET=il_tuo_client_secret
 
 # NON modificare questi
-SPOTIFY_REDIRECT_URI=http://localhost:5000/api/auth/source/callback
-DEST_REDIRECT_URI=http://localhost:5000/api/auth/destination/callback
+SPOTIFY_REDIRECT_URI=http://[::1]:5000/api/auth/source/callback
+DEST_REDIRECT_URI=http://[::1]:5000/api/auth/destination/callback
 
 # Genera una stringa casuale lunga
 SESSION_SECRET=stringa_casuale_molto_lunga_e_sicura
@@ -190,10 +190,10 @@ npm start
 ```
 🚀 Server avviato su porta 5000
 🎵 Spotify Migration Tool pronto!
-🌐 Apri: http://localhost:5000
+🌐 Apri: http://[::1]:5000
 ```
 
-**Apri il browser su:** http://localhost:5000
+**Apri il browser su:** http://[::1]:5000
 
 ---
 
@@ -261,8 +261,8 @@ Durante la migrazione vedrai aggiornamenti in tempo reale:
 **❌ "INVALID_CLIENT: Invalid redirect URI"**
 - **Problema**: Redirect URI non configurati correttamente
 - **Soluzione**: Verifica che nell'app Spotify ci siano ESATTAMENTE:
-  - `http://localhost:5000/api/auth/source/callback`
-  - `http://localhost:5000/api/auth/destination/callback`
+  - `http://[::1]:5000/api/auth/source/callback`
+  - `http://[::1]:5000/api/auth/destination/callback`
 
 **❌ "403 Forbidden" durante l'autenticazione**
 - **Problema**: Account non aggiunto come utente di test
