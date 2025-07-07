@@ -124,8 +124,8 @@ Compila i campi:
 
 > **🔑 CRUCIALE**: Aggiungi ESATTAMENTE questi due URI:
 
-1. `http://localhost:5000/api/auth/source/callback`
-2. `http://localhost:5000/api/auth/destination/callback`
+1. `http://[::1]:5000/api/auth/source/callback`
+2. `http://[::1]:5000/api/auth/destination/callback`
 
 #### **2.4 Ottieni le Credenziali**
 
