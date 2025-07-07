@@ -1,6 +1,6 @@
 {
   "name": "spotify-account-migration",
-  "version": "1.0.0",
+  "version": "2.0.1",
   "description": "Web app to migrate data between Spotify accounts",
   "main": "server.js",
   "scripts": {
