@@ -10,12 +10,12 @@ import SuccessIcon from '@mui/icons-material/CheckCircle';
 const LogViewer = ({ logs = [], title = "Operation Logs", maxHeight = '200px', showControls = true }) => {
   const [filter, setFilter] = useState('all');
   
-  // Filtra i log in base al tipo selezionato
+  // Filter logs based on the selected type
   const filteredLogs = filter === 'all' 
     ? logs 
     : logs.filter(log => log.type === filter);
   
-  // Funzione per esportare i log come file di testo
+  // Function to export logs as text file
   const exportLogs = () => {
     const logText = logs.map(log => 
       `[${new Date(log.timestamp).toLocaleString()}] [${log.type.toUpperCase()}] ${log.message}`
@@ -32,7 +32,7 @@ const LogViewer = ({ logs = [], title = "Operation Logs", maxHeight = '200px', s
     URL.revokeObjectURL(url);
   };
   
-  // Funzione per ottenere l'icona in base al tipo di log
+  // Function to get icon based on log type
   const getLogIcon = (type) => {
     switch(type) {
       case 'error':
@@ -90,7 +90,7 @@ const LogViewer = ({ logs = [], title = "Operation Logs", maxHeight = '200px', s
               onClick={() => setFilter('success')}
               size="small"
             />
-            <Tooltip title="Esporta log">
+            <Tooltip title="Export log">
               <IconButton size="small" onClick={exportLogs}>
                 <SaveIcon fontSize="small" />
               </IconButton>
@@ -133,7 +133,7 @@ const LogViewer = ({ logs = [], title = "Operation Logs", maxHeight = '200px', s
           </Box>
         ) : (
           <Typography variant="body2" sx={{ textAlign: 'center', py: 2, color: 'text.secondary' }}>
-            Nessun log da visualizzare
+            No logs to display
           </Typography>
         )}
       </Box>
