@@ -18,9 +18,9 @@ const Error = () => {
   const isDebugMode = queryParams.get('debug') === 'true';
   
   useEffect(() => {
-    // Prova a estrarre un JSON dall'errore se presente
+    // Try to extract a JSON from the error if present
     try {
-      // Cerca un possibile JSON nell'errore
+      // Look for possible JSON in the error
       const jsonMatch = errorMessage.match(/\{.*\}/s);
       if (jsonMatch) {
         const jsonStr = jsonMatch[0];
@@ -28,46 +28,46 @@ const Error = () => {
         setDetailedError(jsonObj);
       }
     } catch (e) {
-      console.log('Non è stato possibile estrarre JSON dall\'errore:', e);
+      console.log('Failed to extract JSON from error:', e);
     }
     
-    // Se siamo in modalità debug, carica automaticamente i log
+    // If we are in debug mode, it automatically loads the logs
     if (isDebugMode) {
       fetchServerLogs();
     }
   }, [errorMessage, isDebugMode]);
   
-  // Funzione per recuperare i log dal server
+  // Function to retrieve logs from server
   const fetchServerLogs = async () => {
     try {
       setLoadingLogs(true);
-      // Chiamata all'endpoint API per recuperare i log di debug
+      // Calling the API endpoint to retrieve debug logs
       const response = await axios.get('/api/debug/logs');
       if (response.data && response.data.logs) {
         setServerLogs(response.data.logs);
       } else {
-        // Fallback in caso di risposta vuota
+        // Fallback on empty response
         setServerLogs([
-          { timestamp: new Date(), message: 'Tentativo di autenticazione fallito', type: 'error' },
-          { timestamp: new Date(), message: 'Verifica le credenziali nel file .env', type: 'info' },
+          { timestamp: new Date(), message: 'Authentication attempt failed', type: 'error' },
+          { timestamp: new Date(), message: 'Verify credentials in .env file', type: 'info' },
           { timestamp: new Date(), message: 'Controlla che i redirect URI siano configurati correttamente nel Spotify Developer Dashboard', type: 'info' }
         ]);
       }
     } catch (error) {
-      console.error('Errore nel recupero dei log:', error);
-      toast.error('Impossibile recuperare i log dal server');
-      // Fallback in caso di errore
+      console.error('Error retrieving logs:', error);
+      toast.error('Unable to retrieve logs from server');
+      // Fallback on error
       setServerLogs([
-        { timestamp: new Date(), message: 'Errore nel recupero dei log dal server', type: 'error' },
-        { timestamp: new Date(), message: error.message || 'Errore sconosciuto', type: 'error' },
-        { timestamp: new Date(), message: 'Suggerimento: Verifica che il server sia in esecuzione', type: 'info' }
+        { timestamp: new Date(), message: 'Error retrieving logs from server', type: 'error' },
+        { timestamp: new Date(), message: error.message || 'Unknown error', type: 'error' },
+        { timestamp: new Date(), message: 'Tip: Make sure the server is running', type: 'info' }
       ]);
     } finally {
       setLoadingLogs(false);
     }
   };
 
-  // Verifica se l'errore è relativo alle autorizzazioni Spotify
+  // Check if the error is related to Spotify permissions
   const isAuthScopeError = errorMessage.toLowerCase().includes('scope') || 
                            errorMessage.toLowerCase().includes('permission') || 
                            errorMessage.toLowerCase().includes('autorizzazioni');
@@ -86,26 +86,26 @@ const Error = () => {
         {isAuthScopeError && (
           <Alert severity="info" sx={{ mt: 2, mb: 2 }}>
             <Typography variant="body1" gutterBottom>
-              <strong>Suggerimento:</strong> Questo errore potrebbe essere causato da autorizzazioni insufficienti nelle tue app Spotify.
+              <strong>Tip:</strong> This error could be caused by insufficient permissions in your Spotify apps.
             </Typography>
             <Typography variant="body2">
-              Verifica che entrambe le app nel Spotify Developer Dashboard abbiano tutti gli scope necessari e che i Redirect URI siano configurati correttamente.
-              Consulta il <Link href="/" onClick={(e) => {e.preventDefault(); navigate('/');}} color="primary">README</Link> per maggiori informazioni.
+              Verify that both apps in the Spotify Developer Dashboard have all the necessary scopes and that the Redirect URIs are configured correctly.
+              See the <Link href="/" onClick={(e) => {e.preventDefault(); navigate('/');}} color="primary">README</Link> for more information.
             </Typography>
           </Alert>
         )}
         
         <Alert severity="warning" sx={{ mt: 2, mb: 2 }}>
           <Typography variant="body1" gutterBottom>
-            <strong>Suggerimenti per risolvere il problema:</strong>
+            <strong>Tips to solve the problem:</strong>
           </Typography>
           <Typography variant="body2" component="div">
             <ol>
-              <li>Verifica che le credenziali nel file .env siano corrette</li>
-              <li>Controlla che i Redirect URI nel Spotify Developer Dashboard corrispondano esattamente a quelli nel file .env</li>
-              <li>Assicurati che l'app Spotify abbia tutti gli scope necessari</li>
-              <li>Prova a cancellare i cookie del browser e riavviare l'applicazione</li>
-              <li>Verifica che il server sia in esecuzione sulla porta corretta (5000)</li>
+              <li>Verify that the credentials in the .env file are correct</li>
+              <li>Check that the Redirect URIs in the Spotify Developer Dashboard match exactly those in the .env file</li>
+              <li>Make sure your Spotify app has all the necessary scopes</li>
+              <li>Try clearing your browser cookies and restarting the application</li>
+              <li>Verify that the server is running on the correct port (5000)</li>
             </ol>
           </Typography>
         </Alert>
@@ -113,7 +113,7 @@ const Error = () => {
         {detailedError && (
           <Accordion sx={{ mt: 2, mb: 4 }}>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography>Dettagli tecnici dell'errore</Typography>
+              <Typography>Technical details of the error</Typography>
             </AccordionSummary>
             <AccordionDetails>
               <Box sx={{ p: 2, bgcolor: 'background.paper', borderRadius: 1, overflow: 'auto' }}>
