@@ -29,41 +29,41 @@ const Footer = () => {
               </Typography>
             </Box>
             <Typography variant="body2" color="text.secondary" sx={{ mb: 2, lineHeight: 1.6 }}>
-              Strumento sicuro e affidabile per migrare i tuoi dati tra account Spotify diversi.
+              Safe and reliable tool to migrate your data between different Spotify accounts.
             </Typography>
           </Grid>
 
           <Grid item xs={12} md={4} sx={{ textAlign: 'center' }}>
             <Typography variant="h6" gutterBottom color="white" fontWeight="600">
-              Caratteristiche
+              Characteristics
             </Typography>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
               <Typography variant="body2" color="text.secondary">
                 <SecurityIcon sx={{ fontSize: 16, mr: 1, verticalAlign: 'middle', color: '#1DB954' }} />
-                OAuth2 Sicuro
+                OAuth2 Secure
               </Typography>
               <Typography variant="body2" color="text.secondary">
                 <MusicNoteIcon sx={{ fontSize: 16, mr: 1, verticalAlign: 'middle', color: '#1DB954' }} />
-                API Ufficiale Spotify
+                Spotify Official API
               </Typography>
               <Typography variant="body2" color="text.secondary">
                 <FavoriteIcon sx={{ fontSize: 16, mr: 1, verticalAlign: 'middle', color: '#1DB954' }} />
-                Migrazione Completa
+                Complete Migration
               </Typography>
             </Box>
           </Grid>
 
           <Grid item xs={12} md={4} sx={{ textAlign: { xs: 'center', md: 'right' } }}>
             <Typography variant="h6" gutterBottom color="white" fontWeight="600">
-              Informazioni
+              Information
             </Typography>
             <Typography variant="body2" color="text.secondary" paragraph>
-              Versione 1.0.0
+              Version 2.0.1
             </Typography>
             <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.875rem' }}>
-              🔒 I tuoi dati sono sempre al sicuro<br/>
-              🚫 Non memorizziamo informazioni personali<br/>
-              ✅ Compatibile con tutti gli account Spotify
+              🔒 Your data is always safe<br/>
+              🚫 No personal data is stored<br/>
+              ✅ Compatible with all kind of Spotify accounts
             </Typography>
           </Grid>
         </Grid>
@@ -77,12 +77,12 @@ const Footer = () => {
           }}
         >
           <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-            Realizzato con{' '}
+            Made with{' '}
             <FavoriteIcon sx={{ fontSize: 16, mx: 0.5, verticalAlign: 'middle', color: '#1DB954' }} />
-            per la community Spotify
+            by the Spotify community
           </Typography>
           <Typography variant="body2" color="text.secondary" sx={{ opacity: 0.7 }}>
-            © {new Date().getFullYear()} Spotify Migration Tool - Strumento non ufficiale per uso personale
+            © {new Date().getFullYear()} Spotify Migration Tool - Unofficial tool for personal use
           </Typography>
         </Box>
       </Container>
