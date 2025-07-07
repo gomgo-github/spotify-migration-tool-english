@@ -25,7 +25,7 @@ const spotifyApi = new SpotifyWebApi({
   redirectUri: process.env.SPOTIFY_REDIRECT_URI || process.env.SOURCE_REDIRECT_URI
 });
 
-// Configurazione per account destinazione (usando la stessa app ma redirect diverso)
+// Configuration for target account (using same app but different redirect)
 const destRedirectUri = process.env.DEST_REDIRECT_URI || `${process.env.SPOTIFY_REDIRECT_URI}/destination` || 'http://localhost:5000/api/auth/destination/callback';
 
 console.log('Spotify app configuration:', {
@@ -36,15 +36,15 @@ console.log('Spotify app configuration:', {
 
 // Login route for source account
 router.get('/source/login', (req, res) => {
-  // Pulisci la sessione precedente
+  // Clear previous session
   req.session.sourceTokens = null;
   req.session.sourceUser = null;
   
   const state = 'source-' + Math.random().toString(36).substring(7);
-  req.session.authState = state; // Salviamo lo state in sessione per verificarlo
+  req.session.authState = state; // Let's save the state in session to verify it
   
   const authorizeURL = spotifyApi.createAuthorizeURL(SPOTIFY_SCOPES, state, {
-    showDialog: true // Forza il popup di autorizzazione
+    showDialog: true // Force authorization popup
   });
   console.log('Source login redirect URL:', authorizeURL);
   res.redirect(authorizeURL);
@@ -54,7 +54,7 @@ router.get('/source/login', (req, res) => {
 router.get('/source/callback', async (req, res) => {
   const { code, error, error_description, state } = req.query;
   
-  // Log completo dei parametri di callback per debug
+  // Full callback parameter log for debugging
   console.log('Source callback received with params:', {
     code: code ? `${code.substring(0, 5)}...` : 'No code',
     error: error || 'None',
@@ -69,13 +69,13 @@ router.get('/source/callback', async (req, res) => {
     return res.redirect(`/error?message=Spotify authentication error: ${encodeURIComponent(error_description || error)}&debug=true`);
   }
   
-  // Verifica che il codice di autorizzazione sia presente
+  // Verify that the authorization code is present
   if (!code) {
     console.error('No authorization code received from Spotify');
     return res.redirect('/error?message=Failed to authenticate source account: No authorization code received&debug=true');
   }
   
-  // Verifica state per sicurezza (opzionale ma consigliato)
+  // Verify status for security (optional but recommended)
   if (state && req.session.authState && state !== req.session.authState) {
     console.error('State mismatch in OAuth callback');
     return res.redirect('/error?message=Security error: state mismatch&debug=true');
@@ -147,7 +147,7 @@ router.get('/source/callback', async (req, res) => {
       errorMessage = String(error);
     }
     
-    // Gestione specifica per errore 403 Forbidden
+    // Specific handling for 403 Forbidden error
     if (error.statusCode === 403) {
       errorMessage = 'Accesso negato (403 Forbidden). Verifica che l\'account sia aggiunto come utente di test nel Developer Dashboard di Spotify, oppure che l\'app sia in modalità estesa.';
     }
@@ -158,7 +158,7 @@ router.get('/source/callback', async (req, res) => {
 
 // Login route for destination account
 router.get('/destination/login', (req, res) => {
-  // Pulisci la sessione precedente
+  // Clear previous session
   req.session.destTokens = null;
   req.session.destUser = null;
   
@@ -173,7 +173,7 @@ router.get('/destination/login', (req, res) => {
   });
   
   const authorizeURL = tempSpotifyApi.createAuthorizeURL(SPOTIFY_SCOPES, state, {
-    showDialog: true // Forza il popup di autorizzazione per cambiare account
+    showDialog: true // Force authorization popup to switch accounts
   });
   console.log('Destination login redirect URL:', authorizeURL);
   res.redirect(authorizeURL);
@@ -244,10 +244,10 @@ router.get('/destination/callback', async (req, res) => {
     req.session.destUser = userProfile.body;
     console.log('Destination user authenticated:', userProfile.body.id, '(' + userProfile.body.display_name + ')');
     
-    // Verifica che non sia lo stesso account
+    // Verify that it is not the same account
     if (req.session.sourceUser && req.session.sourceUser.id === userProfile.body.id) {
       console.warn('Warning: Source and destination accounts are the same user!');
-      // Non blocchiamo, ma avvertiamo
+      // We don't block, but we warn
     }
     
     // Clear auth state
