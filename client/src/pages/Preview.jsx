@@ -15,7 +15,7 @@ const Preview = ({ authStatus }) => {
     followedUsers: []
   });
   
-  // Aggiungiamo stati per la paginazione
+  // Let's add states for pagination
   const [pagination, setPagination] = useState({
     savedTracks: { page: 1, perPage: 50, total: 0 },
     followedArtists: { page: 1, perPage: 50, total: 0 }
@@ -35,7 +35,7 @@ const Preview = ({ authStatus }) => {
   
   const [selected, setSelected] = useState(initialSelectionState);
   
-  // Stato per tenere traccia delle playlist espanse
+  // Status to track expanded playlists
   const [expandedPlaylists, setExpandedPlaylists] = useState({});
 
   useEffect(() => {
@@ -46,7 +46,7 @@ const Preview = ({ authStatus }) => {
         // Fetch playlists
         const playlistsRes = await axios.get('/api/migration/playlists');
         
-        // Fetch saved tracks con paginazione
+        // Fetch saved tracks with pagination
         const savedTracksRes = await axios.get('/api/migration/saved-tracks', {
           params: {
             page: pagination.savedTracks.page,
@@ -54,7 +54,7 @@ const Preview = ({ authStatus }) => {
           }
         });
         
-        // Fetch followed artists con paginazione
+        // Fetch followed artists with pagination
         const followedArtistsRes = await axios.get('/api/migration/followed-artists', {
           params: {
             page: pagination.followedArtists.page,
@@ -69,7 +69,7 @@ const Preview = ({ authStatus }) => {
           followedUsers: []
         }));
 
-        // Aggiorna i totali per la paginazione
+        // Update totals for pagination
         setPagination(prev => ({
           savedTracks: { ...prev.savedTracks, total: savedTracksRes.data.total || 0 },
           followedArtists: { ...prev.followedArtists, total: followedArtistsRes.data.total || 0 }
@@ -85,9 +85,9 @@ const Preview = ({ authStatus }) => {
     fetchData();
   }, [pagination.savedTracks.page, pagination.followedArtists.page]);
 
-  // Rimuoviamo la gestione dei log poiché non più necessaria
+  // We remove log management as it is no longer needed
   const addLog = (message, type = 'info') => {
-    // Funzione mantenuta per compatibilità ma non fa nulla
+    // Function kept for compatibility but does nothing
     console.log(`[${type}] ${message}`);
   };
 
@@ -112,22 +112,22 @@ const Preview = ({ authStatus }) => {
     });
   };
   
-  // Funzione per gestire l'espansione di una playlist
+  // Function to manage the expansion of a playlist
   const handleExpandPlaylist = async (playlistId) => {
-    // Inverti lo stato di espansione
+    // Reverse expansion state
     setExpandedPlaylists(prev => ({
       ...prev,
       [playlistId]: !prev[playlistId]
     }));
     
-    // Se stiamo espandendo e non abbiamo ancora caricato le tracce
+    // If we are expanding and we haven't uploaded the tracks yet
     if (!expandedPlaylists[playlistId]) {
       try {
-        // Carica le tracce della playlist
+        // Load playlist tracks
         const response = await axios.get(`/api/migration/playlist-tracks/${playlistId}`);
         const tracks = response.data.tracks || [];
         
-        // Aggiorna i dati delle playlist con le tracce
+        // Update playlist data with tracks
         setData(prev => ({
           ...prev,
           playlists: prev.playlists.map(p => 
@@ -141,15 +141,15 @@ const Preview = ({ authStatus }) => {
     }
   };
   
-  // Funzione per gestire la selezione/deselezione di una traccia
+  // Function to manage the selection/deselection of a track
   const handleTrackToggle = (playlistId, trackId) => {
     setSelected(prev => {
-      // Ottieni l'elenco corrente delle tracce deselezionate per questa playlist
+      // Get the current list of unselected tracks for this playlist
       const playlistDeselectedTracks = prev.playlistTracks[playlistId] || [];
       
-      // Verifica se la traccia è già deselezionata
+      // Check if the track is already deselected
       if (playlistDeselectedTracks.includes(trackId)) {
-        // Rimuovi la traccia dall'elenco delle deselezionate
+        // Remove the track from the unselected list
         const updatedTracks = playlistDeselectedTracks.filter(id => id !== trackId);
         addLog(`Reselected track in playlist`);
         return {
@@ -160,7 +160,7 @@ const Preview = ({ authStatus }) => {
           }
         };
       } else {
-        // Aggiungi la traccia all'elenco delle deselezionate
+        // Add the track to the unselected list
         addLog(`Deselected track in playlist`);
         return {
           ...prev,
@@ -173,19 +173,19 @@ const Preview = ({ authStatus }) => {
     });
   };
 
-  // Funzione per gestire la selezione/deselezione di un brano preferito
+  // Function to manage the selection/deselection of a favorite song
   const handleSavedTrackToggle = (trackId) => {
     setSelected(prev => {
-      // Verifica se il brano è già selezionato
+      // Check if the song is already selected
       if (prev.savedTrackIds.includes(trackId)) {
-        // Rimuovi il brano dall'elenco dei selezionati
+        // Remove song from selected list
         addLog(`Deselected saved track`);
         return {
           ...prev,
           savedTrackIds: prev.savedTrackIds.filter(id => id !== trackId)
         };
       } else {
-        // Aggiungi il brano all'elenco dei selezionati
+        // Add song to selected list
         addLog(`Selected saved track`);
         return {
           ...prev,
@@ -195,19 +195,19 @@ const Preview = ({ authStatus }) => {
     });
   };
 
-  // Funzione per gestire la selezione/deselezione di un artista seguito
+  // Function to manage the selection/deselection of a followed artist
   const handleFollowedArtistToggle = (artistId) => {
     setSelected(prev => {
-      // Verifica se l'artista è già selezionato
+      // Check if the artist is already selected
       if (prev.followedArtistIds.includes(artistId)) {
-        // Rimuovi l'artista dall'elenco dei selezionati
+        // Remove the artist from the selected list
         addLog(`Deselected followed artist`);
         return {
           ...prev,
           followedArtistIds: prev.followedArtistIds.filter(id => id !== artistId)
         };
       } else {
-        // Aggiungi l'artista all'elenco dei selezionati
+        // Add the artist to the selected list
         addLog(`Selected followed artist`);
         return {
           ...prev,
@@ -237,8 +237,8 @@ const Preview = ({ authStatus }) => {
           'Followed Users';
         addLog(`${newValue ? 'Selected' : 'Deselected'} ${typeLabel}`);
         
-        // Se stiamo selezionando tutti i brani preferiti o gli artisti seguiti,
-        // aggiorniamo anche gli array di ID selezionati
+        // If we are selecting all favorite songs or followed artists,
+        // we also update the selected ID arrays
         if (type === 'savedTracks') {
           return {
             ...prev,
@@ -263,7 +263,7 @@ const Preview = ({ authStatus }) => {
 
   const handleProceed = () => {
     try {
-      console.log("Stato selezioni prima del salvataggio:", {
+      console.log("Selection status before saving:", {
         playlists: selected.playlists.length,
         savedTracks: selected.savedTracks,
         savedTrackIds: selected.savedTrackIds.length,
@@ -271,52 +271,52 @@ const Preview = ({ authStatus }) => {
         followedArtistIds: selected.followedArtistIds.length
       });
 
-      // Salva le selezioni in localStorage
+      // Save selections to localStorage
       localStorage.setItem('selectedPlaylists', JSON.stringify(selected.playlists));
       
-      // Salva brani preferiti
-      // Se l'intera card è selezionata oppure se ci sono brani individuali selezionati
+      // Save favorite songs
+      // Whether the entire card is selected or whether individual songs are selected
       const migrateSelectedTracks = selected.savedTracks || selected.savedTrackIds.length > 0;
       localStorage.setItem('selectedSavedTracks', JSON.stringify(migrateSelectedTracks));
       
       if (migrateSelectedTracks) {
-        // Se è selezionata l'intera card, salva tutti i brani
+        // If the entire card is selected, save all songs
         if (selected.savedTracks && data.savedTracks && data.savedTracks.length > 0) {
           const trackIds = data.savedTracks.map(item => item.track.id);
           localStorage.setItem('selectedSavedTrackIds', JSON.stringify(trackIds));
-          console.log(`Salvati ${trackIds.length} brani preferiti (selezione completa) per la migrazione`);
+          console.log(`Selected ${trackIds.length} Favorite songs (full selection) for migration`);
         } 
-        // Altrimenti salva solo quelli selezionati individualmente
+        // Otherwise save only the individually selected ones
         else if (selected.savedTrackIds.length > 0) {
           localStorage.setItem('selectedSavedTrackIds', JSON.stringify(selected.savedTrackIds));
-          console.log(`Salvati ${selected.savedTrackIds.length} brani preferiti (selezione individuale) per la migrazione`);
+          console.log(`Selected ${selected.savedTrackIds.length} Favorite songs (individual selection) for migration`);
         } else {
           localStorage.setItem('selectedSavedTrackIds', JSON.stringify([]));
-          console.log("Nessun brano preferito da migrare");
+          console.log("No favorite songs to migrate");
         }
       } else {
         localStorage.setItem('selectedSavedTrackIds', JSON.stringify([]));
       }
       
-      // Salva artisti seguiti
-      // Se l'intera card è selezionata oppure se ci sono artisti individuali selezionati
+      // Save followed artists
+      // If the entire card is selected or if there are individual artists selected
       const migrateSelectedArtists = selected.followedArtists || selected.followedArtistIds.length > 0;
       localStorage.setItem('selectedFollowedArtists', JSON.stringify(migrateSelectedArtists));
       
       if (migrateSelectedArtists) {
-        // Se è selezionata l'intera card, salva tutti gli artisti
+        // If the entire card is selected, save all artists
         if (selected.followedArtists && data.followedArtists && data.followedArtists.length > 0) {
           const artistIds = data.followedArtists.map(artist => artist.id);
           localStorage.setItem('selectedFollowedArtistIds', JSON.stringify(artistIds));
-          console.log(`Salvati ${artistIds.length} artisti seguiti (selezione completa) per la migrazione`);
+          console.log(`Selected ${artistIds.length} artists followed (full selection) for migration`);
         } 
         // Altrimenti salva solo quelli selezionati individualmente
         else if (selected.followedArtistIds.length > 0) {
           localStorage.setItem('selectedFollowedArtistIds', JSON.stringify(selected.followedArtistIds));
-          console.log(`Salvati ${selected.followedArtistIds.length} artisti seguiti (selezione individuale) per la migrazione`);
+          console.log(`Selected ${selected.followedArtistIds.length} artists followed (individual selection) for migration`);
         } else {
           localStorage.setItem('selectedFollowedArtistIds', JSON.stringify([]));
-          console.log("Nessun artista seguito da migrare");
+          console.log("No artists followed to migrate");
         }
       } else {
         localStorage.setItem('selectedFollowedArtistIds', JSON.stringify([]));
@@ -325,11 +325,11 @@ const Preview = ({ authStatus }) => {
       navigate('/migration');
     } catch (error) {
       console.error('Error saving selection:', error);
-      toast.error('Errore nel salvataggio delle selezioni');
+      toast.error('Error saving selections');
     }
   };
 
-  // Funzione per caricare più dati
+  // Function to load more data
   const loadMore = (type) => {
     setPagination(prev => ({
       ...prev,
@@ -340,7 +340,7 @@ const Preview = ({ authStatus }) => {
     }));
   };
 
-  // Funzione per verificare se ci sono più dati da caricare
+  // Function to check if there is more data to load
   const hasMore = (type) => {
     return data[type].length < pagination[type].total;
   };
@@ -356,7 +356,7 @@ const Preview = ({ authStatus }) => {
     );
   }
 
-  // Stile per le card selezionate
+  // Style for selected cards
   const getCardStyle = (isSelected) => ({
     border: isSelected ? '2px solid #1DB954' : '2px solid transparent',
     borderRadius: '16px',
@@ -369,62 +369,62 @@ const Preview = ({ authStatus }) => {
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
-      {/* Sezione log rimossa come richiesto */}
+      {/* Log section removed as requested */}
       <Typography variant="h4" component="h1" gutterBottom>
-        Anteprima e selezione elementi da migrare
+        Preview and select items to migrate
       </Typography>
       
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
           <Typography variant="body1">
-            Seleziona gli elementi che vuoi migrare da {authStatus.sourceUser?.display_name} a {authStatus.destUser?.display_name}.
+            Select the items you want to migrate from {authStatus.sourceUser?.display_name} to {authStatus.destUser?.display_name}.
           </Typography>
           
           <Button 
             variant="text" 
             color="primary"
             onClick={() => {
-              // Verifica se tutti gli elementi sono già selezionati
+              // Check if all items are already selected
               const allSelected = 
                 selected.playlists.length === data.playlists.length && 
                 selected.savedTracks && 
                 selected.followedArtists;
               
               if (allSelected) {
-                // Deseleziona tutto
+                // Deselect all
                 setSelected(prev => ({
                   ...prev,
                   playlists: [],
                   savedTracks: false,
-                  savedTrackIds: [], // Assicurati che l'array degli ID dei brani sia vuoto
+                  savedTrackIds: [], // Make sure the song ID array is empty
                   followedArtists: false,
-                  followedArtistIds: [], // Assicurati che l'array degli ID degli artisti sia vuoto
+                  followedArtistIds: [], // Make sure the artist ID array is empty
                   followedUsers: false
                 }));
-                addLog('Deselezionati tutti gli elementi');
+                addLog('Deselect all items');
               } else {
-                // Seleziona tutto
+                // Select all
                 setSelected(prev => ({
                   ...prev,
                   playlists: data.playlists.map(p => p.id),
                   savedTracks: true,
-                  savedTrackIds: data.savedTracks.map(item => item.track.id), // Seleziona tutti i brani individualmente
+                  savedTrackIds: data.savedTracks.map(item => item.track.id), // Select all songs individually
                   followedArtists: true,
-                  followedArtistIds: data.followedArtists.map(artist => artist.id) // Seleziona tutti gli artisti individualmente
+                  followedArtistIds: data.followedArtists.map(artist => artist.id) // Select all artists individually
                 }));
-                addLog('Selezionati tutti gli elementi disponibili');
+                addLog('Select all available items');
               }
             }}
           >
             {selected.playlists.length === data.playlists.length && 
              selected.savedTracks && 
              selected.followedArtists
-              ? 'Deseleziona Tutto' 
-              : 'Seleziona Tutto'}
+              ? 'Deselect All' 
+              : 'Select All'}
           </Button>
         </Box>
         
-        <Box> {/* Box vuoto per mantenere lo spazio tra gli elementi */}
+        <Box> {/* Empty box to keep space between elements */}
         </Box>
       </Box>
       
@@ -457,7 +457,7 @@ const Preview = ({ authStatus }) => {
                   <ListItem dense>
                     <ListItemText 
                       primary={playlist.name} 
-                      secondary={`${playlist.tracks.total} brani`} 
+                      secondary={`${playlist.tracks.total} tracks`} 
                       onClick={(e) => {
                         e.stopPropagation();
                         handlePlaylistToggle(playlist.id);
@@ -484,7 +484,7 @@ const Preview = ({ authStatus }) => {
                     </Box>
                   </ListItem>
                   
-                  {/* Menu espandibile con le tracce */}
+                  {/* Expandable menu with tracks */}
                   {expandedPlaylists[playlist.id] && (
                     <Box sx={{ pl: 4, pr: 2, pb: 1 }}>
                       {playlist.loadedTracks ? (
@@ -512,7 +512,7 @@ const Preview = ({ authStatus }) => {
                           </List>
                         ) : (
                           <Typography variant="body2" sx={{ py: 1, textAlign: 'center' }}>
-                            Nessuna traccia in questa playlist
+                            No tracks in this playlist
                           </Typography>
                         )
                       ) : (
@@ -527,7 +527,7 @@ const Preview = ({ authStatus }) => {
               ))}
               {data.playlists.length === 0 && (
                 <ListItem>
-                  <ListItemText primary="Nessuna playlist trovata" />
+                  <ListItemText primary="No playlist found" />
                 </ListItem>
               )}
             </List>
@@ -545,14 +545,14 @@ const Preview = ({ authStatus }) => {
               ...getCardStyle(selected.savedTracks)
             }}
             onClick={(e) => {
-              // Evita che il click sull'intero Paper attivi toggleAll se espanso
+              // Prevent clicking on entire Paper from activating toggleAll when expanded
               if (!selected.expandedTracks) {
                 handleToggleAll('savedTracks');
               }
             }}
           >
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-              <Typography variant="h6">Brani Preferiti ({data.savedTracks.length})</Typography>
+              <Typography variant="h6">Favorite Tracks ({data.savedTracks.length})</Typography>
               <Checkbox
                 checked={selected.savedTracks}
                 onClick={(e) => {
@@ -564,14 +564,14 @@ const Preview = ({ authStatus }) => {
             
             <Divider sx={{ mb: 2 }} />
             
-            {/* Visualizzazione compatta quando non è espanso */}
+            {/* Compact view when not expanded */}
             {!selected.expandedTracks ? (
               <Box sx={{ textAlign: 'center', py: 2 }}>
                 <Typography variant="h3" sx={{ fontWeight: 'bold', color: '#1DB954' }}>
                   {data.savedTracks.length}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  brani da migrare
+                  songs to migrate
                 </Typography>
                 <Button 
                   variant="outlined" 
@@ -582,14 +582,14 @@ const Preview = ({ authStatus }) => {
                     setSelected(prev => ({ ...prev, expandedTracks: true }));
                   }}
                 >
-                  Mostra Brani
+                  Show Tracks
                 </Button>
               </Box>
             ) : (
               <Box onClick={(e) => e.stopPropagation()}>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
                   <Typography variant="body2" color="text.secondary">
-                    Seleziona i brani da migrare
+                    Select songs to migrate
                   </Typography>
                   <Button 
                     variant="outlined" 
@@ -599,7 +599,7 @@ const Preview = ({ authStatus }) => {
                       setSelected(prev => ({ ...prev, expandedTracks: false }));
                     }}
                   >
-                    Chiudi
+                    Close
                   </Button>
                 </Box>
                 
@@ -631,7 +631,7 @@ const Preview = ({ authStatus }) => {
                       }}
                       disabled={loading}
                     >
-                      {loading ? 'Caricamento...' : 'Carica altri brani'}
+                      {loading ? 'Loading...' : 'Load more songs'}
                     </Button>
                   )}
                 </List>
@@ -640,7 +640,7 @@ const Preview = ({ authStatus }) => {
           </Paper>
         </Grid>
         
-        {/* Artisti Seguiti */}
+        {/* Artists Followed */}
         <Grid item xs={12} md={6} lg={4}>
           <Paper 
             elevation={3} 
@@ -651,14 +651,14 @@ const Preview = ({ authStatus }) => {
               ...getCardStyle(selected.followedArtists)
             }}
             onClick={(e) => {
-              // Evita che il click sull'intero Paper attivi toggleAll se espanso
+              // Prevent clicking on entire Paper from activating toggleAll when expanded
               if (!selected.expandedArtists) {
                 handleToggleAll('followedArtists');
               }
             }}
           >
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-              <Typography variant="h6">Artisti Seguiti ({data.followedArtists.length})</Typography>
+                <Typography variant="h6">Artists Followed ({data.followedArtists.length})</Typography>
               <Checkbox
                 checked={selected.followedArtists}
                 onClick={(e) => {
@@ -670,14 +670,14 @@ const Preview = ({ authStatus }) => {
             
             <Divider sx={{ mb: 2 }} />
             
-            {/* Visualizzazione compatta quando non è espanso */}
+            {/* Compact view when not expanded */}
             {!selected.expandedArtists ? (
               <Box sx={{ textAlign: 'center', py: 2 }}>
                 <Typography variant="h3" sx={{ fontWeight: 'bold', color: '#1DB954' }}>
                   {data.followedArtists.length}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  artisti da migrare
+                  artists to migrate
                 </Typography>
                 <Button 
                   variant="outlined" 
@@ -688,14 +688,14 @@ const Preview = ({ authStatus }) => {
                     setSelected(prev => ({ ...prev, expandedArtists: true }));
                   }}
                 >
-                  Mostra Artisti
+                  Artists Show
                 </Button>
               </Box>
             ) : (
               <Box onClick={(e) => e.stopPropagation()}>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
                   <Typography variant="body2" color="text.secondary">
-                    Seleziona gli artisti da migrare
+                    Select artists to migrate
                   </Typography>
                   <Button 
                     variant="outlined" 
@@ -705,7 +705,7 @@ const Preview = ({ authStatus }) => {
                       setSelected(prev => ({ ...prev, expandedArtists: false }));
                     }}
                   >
-                    Chiudi
+                    Close
                   </Button>
                 </Box>
                 
@@ -737,7 +737,7 @@ const Preview = ({ authStatus }) => {
                       }}
                       disabled={loading}
                     >
-                      {loading ? 'Caricamento...' : 'Carica altri artisti'}
+                      {loading ? 'Loading...' : 'Load more artists'}
                     </Button>
                   )}
                 </List>
@@ -746,7 +746,7 @@ const Preview = ({ authStatus }) => {
           </Paper>
         </Grid>
         
-        {/* Amici Seguiti */}
+        {/* Friends Followed */}
         {data.followedUsers.length > 0 && (
           <Grid item xs={12} md={6} lg={4}>
             <Paper 
@@ -760,7 +760,7 @@ const Preview = ({ authStatus }) => {
               onClick={() => handleToggleAll('followedUsers')}
             >
               <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-                <Typography variant="h6">Amici Seguiti</Typography>
+                <Typography variant="h6">Friends Followed</Typography>
               </Box>
               
               <Divider sx={{ mb: 2 }} />
@@ -770,7 +770,7 @@ const Preview = ({ authStatus }) => {
                   {data.followedUsers.length}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  amici da migrare
+                  friends to migrate
                 </Typography>
               </Box>
             </Paper>
@@ -793,7 +793,7 @@ const Preview = ({ authStatus }) => {
             !selected.followedUsers
           }
         >
-          Inizia Migrazione
+          Start Migration
         </Button>
       </Box>
     </Container>
