@@ -109,7 +109,7 @@ const Home = ({ authStatus }) => {
         {/* Progress Bar */}
         <Box sx={{ mt: 4, mb: 2 }}>
           <Typography variant="body2" color="text.secondary" gutterBottom>
-            Progresso configurazione: {Math.round(getProgressValue())}%
+            Configuration progress: {Math.round(getProgressValue())}%
           </Typography>
           <LinearProgress 
             variant="determinate" 
