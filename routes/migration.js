@@ -1,3 +1,5 @@
+//Developed by tomzdev, Translated by gomgo-github
+
 const express = require('express');
 const router = express.Router();
 const auth = require('./auth');
@@ -24,13 +26,13 @@ const getApiInstances = (req) => {
   return { sourceApi, destApi };
 };
 
-// 🔒 SICUREZZA: Funzione per verificare tracce esistenti in modo granulare
+// 🔒 SECURITY: Function to perform granular checks for existing tracks
 const checkExistingTracksInBatch = async (trackIds, req) => {
   try {
     const { destApi } = getApiInstances(req);
     const checkResult = await destApi.containsMySavedTracks(trackIds);
     
-    // Filtra solo le tracce non ancora salvate
+    // Filter only unsaved tracks
     const newTracks = trackIds.filter((trackId, index) => !checkResult.body[index]);
     
     return {
@@ -40,7 +42,7 @@ const checkExistingTracksInBatch = async (trackIds, req) => {
     };
   } catch (error) {
     console.error('Error checking existing tracks:', error);
-    // In caso di errore, assumiamo che tutte le tracce siano nuove per sicurezza
+    // In case of error, we assume all tracks are new for safety.
     return {
       newTracks: trackIds,
       alreadyExisting: 0,
@@ -49,13 +51,13 @@ const checkExistingTracksInBatch = async (trackIds, req) => {
   }
 };
 
-// 🔒 SICUREZZA: Funzione per verificare artisti già seguiti in modo granulare
+// 🔒 SECURITY: Function to verify artists already followed in a granular way
 const checkExistingArtistsInBatch = async (artistIds, req) => {
   try {
     const { destApi } = getApiInstances(req);
     const checkResult = await destApi.isFollowingArtists(artistIds);
     
-    // Filtra solo gli artisti non ancora seguiti
+    // Filter only artists you haven't followed yet
     const newArtists = artistIds.filter((artistId, index) => !checkResult.body[index]);
     
     return {
@@ -65,7 +67,7 @@ const checkExistingArtistsInBatch = async (artistIds, req) => {
     };
   } catch (error) {
     console.error('Error checking existing artists:', error);
-    // In caso di errore, assumiamo che tutti gli artisti siano nuovi per sicurezza
+    // In case of error, we assume all artists are new for safety.
     return {
       newArtists: artistIds,
       alreadyFollowing: 0,
@@ -74,12 +76,12 @@ const checkExistingArtistsInBatch = async (artistIds, req) => {
   }
 };
 
-// Funzione per verificare se una playlist esiste già nell'account di destinazione
+// Function to check if a playlist already exists in the target account
 const checkPlaylistExists = async (playlistName, req) => {
   try {
     const { destApi } = getApiInstances(req);
     
-    // Ottieni tutte le playlist dell'utente di destinazione
+    // Get all playlists of target user
     let playlists = [];
     let offset = 0;
     const limit = 50;
@@ -96,7 +98,7 @@ const checkPlaylistExists = async (playlistName, req) => {
       }
     }
     
-    // Cerca una playlist con lo stesso nome
+    // Search for a playlist with the same name
     const existingPlaylist = playlists.find(playlist => 
       playlist.name.toLowerCase() === playlistName.toLowerCase());
     
@@ -107,12 +109,12 @@ const checkPlaylistExists = async (playlistName, req) => {
   }
 };
 
-// Funzione per verificare se un artista è già seguito nell'account di destinazione
+// Function to check if an artist is already followed in the target account
 const checkArtistFollowed = async (artistId, req) => {
   try {
     const { destApi } = getApiInstances(req);
     
-    // Verifica se l'artista è già seguito
+      // Check if the artist is already followed
     const response = await destApi.isFollowingArtists([artistId]);
     return response.body[0];
   } catch (error) {
@@ -121,12 +123,12 @@ const checkArtistFollowed = async (artistId, req) => {
   }
 };
 
-// Funzione per verificare se un brano è già salvato nell'account di destinazione
+// Function to check if a song is already saved in the destination account
 const checkTrackSaved = async (trackId, req) => {
   try {
     const { destApi } = getApiInstances(req);
     
-    // Verifica se il brano è già salvato
+    // Check if the song is already saved
     const response = await destApi.containsMySavedTracks([trackId]);
     return response.body[0];
   } catch (error) {
@@ -216,35 +218,35 @@ router.get('/followed-artists', [auth.refreshSourceToken, ensureAuthenticated], 
   }
 });
 
-// Funzione per trasferire l'immagine di una playlist
+// Function to transfer the image of a playlist
 const transferPlaylistImage = async (sourcePlaylistId, destPlaylistId, req) => {
   try {
     const { sourceApi, destApi } = getApiInstances(req);
     
-    // Ottieni i dettagli della playlist di origine
+    // Get source playlist details
     const sourcePlaylist = await sourceApi.getPlaylist(sourcePlaylistId);
     
-    // Controlla se la playlist ha un'immagine
+    // Check if playlist has an image
     if (!sourcePlaylist.body.images || sourcePlaylist.body.images.length === 0) {
       return false;
     }
     
-    // Ottieni l'URL dell'immagine della playlist
+    // Obtain playlist image URL
     const imageUrl = sourcePlaylist.body.images[0].url;
     
-    // Crea una directory temporanea se non esiste
+    // Create a temporary folder if it doesnt exist
     const tempDir = path.join(__dirname, '../temp');
     try {
       await mkdirAsync(tempDir, { recursive: true });
     } catch (err) {
-      // Directory già esistente o errore di creazione
+      //Directory already exists, error creating it
       if (err.code !== 'EEXIST') {
         console.error('Error creating temp directory:', err);
         return false;
       }
     }
     
-    // Scarica l'immagine
+    // Download the image
     const imagePath = path.join(tempDir, `playlist_${sourcePlaylistId}.jpg`);
     const response = await axios({
       method: 'get',
@@ -258,20 +260,20 @@ const transferPlaylistImage = async (sourcePlaylistId, destPlaylistId, req) => {
     return new Promise((resolve, reject) => {
       writer.on('finish', async () => {
         try {
-          // Leggi l'immagine come base64
+          // Read image as base64
           const imageBuffer = fs.readFileSync(imagePath);
           const base64Image = imageBuffer.toString('base64');
           
-          // Carica l'immagine sulla playlist di destinazione
+          // Upload the image to the destination playlist
           await destApi.uploadCustomPlaylistCoverImage(destPlaylistId, base64Image);
           
-          // Pulisci il file temporaneo
+          // Clean up the temporary file
           await unlinkAsync(imagePath);
           
           resolve(true);
         } catch (uploadError) {
           console.error('Error uploading playlist image:', uploadError);
-          // Pulisci il file temporaneo anche in caso di errore
+          // Clean temporary file even if error occurs
           try {
             await unlinkAsync(imagePath);
           } catch (cleanupError) {
@@ -292,11 +294,11 @@ const transferPlaylistImage = async (sourcePlaylistId, destPlaylistId, req) => {
   }
 };
 
-// Funzione per ottenere tutte le tracce di una playlist
+// Function to get all tracks of a playlist
 const getAllPlaylistTracks = async (playlistId, req) => {
   let tracks = [];
   let offset = 0;
-  const limit = 100; // Massimo possibile per chiamata
+  const limit = 100; // Maximum possible per call
   let total = 1;
   let skippedLocalTracks = [];
   
@@ -304,7 +306,7 @@ const getAllPlaylistTracks = async (playlistId, req) => {
     const { sourceApi } = getApiInstances(req);
     
     while (offset < total) {
-      // Usa getPlaylistTracks con fields per limitare i dati restituiti e risparmiare banda
+      // Use getPlaylistTracks with fields to limit the data returned and save bandwidth
       const tracksResponse = await sourceApi.getPlaylistTracks(playlistId, {
         offset,
         limit,
@@ -313,14 +315,14 @@ const getAllPlaylistTracks = async (playlistId, req) => {
       
       total = tracksResponse.body.total;
       
-      // Filtra le tracce valide (non nulle) e rimuovi le tracce locali
+      // Filter valid (not null) tracks and remove local tracks
       const validTracks = [];
       
       tracksResponse.body.items.forEach(item => {
         if (item.track && item.track.uri) {
-          // Verifica se è una traccia locale (inizia con "spotify:local:")
+          // Check if it's a local track (starts with "spotify:local:")
           if (item.track.uri.startsWith('spotify:local:')) {
-            // Salva informazioni sulla traccia locale saltata per il log
+            // Save information about skipped local track for log
             skippedLocalTracks.push({
               uri: item.track.uri,
               name: item.track.name || 'Traccia locale senza nome'
@@ -334,13 +336,13 @@ const getAllPlaylistTracks = async (playlistId, req) => {
       tracks = tracks.concat(validTracks);
       offset += limit;
       
-      // Pausa più lunga tra le richieste per evitare rate limiting
+      // Longer pause between requests to avoid rate limiting
       if (offset < total) {
         await new Promise(resolve => setTimeout(resolve, 300));
       }
     }
     
-    // Rimuovi eventuali duplicati (può succedere nelle playlist)
+    // Remove any duplicates (can happen in playlists)
     const uniqueTracks = [];
     const seenUris = new Set();
     
@@ -351,7 +353,7 @@ const getAllPlaylistTracks = async (playlistId, req) => {
       }
     }
     
-    // Ritorna sia le tracce valide che le informazioni sulle tracce locali saltate
+    // Returns both valid tracks and information about skipped local tracks
     return {
       tracks: uniqueTracks,
       skippedLocalTracks: skippedLocalTracks
@@ -362,7 +364,7 @@ const getAllPlaylistTracks = async (playlistId, req) => {
   }
 };
 
-// Funzione per aggiungere tracce a una playlist in batch
+// Function to add tracks to a playlist in batch
 const addTracksToPlaylist = async (playlistId, tracks, playlistName, req) => {
   const batchSize = 50; // Ridotto per maggiore stabilità
   const trackUris = tracks.map(track => track.uri);
@@ -371,11 +373,11 @@ const addTracksToPlaylist = async (playlistId, tracks, playlistName, req) => {
   
   try {
     const { destApi } = getApiInstances(req);
-    // Aggiungi le tracce in batch
+    // Add tracks in batch
     for (let i = 0; i < trackUris.length; i += batchSize) {
       const batch = trackUris.slice(i, i + batchSize);
       let retryCount = 0;
-      const maxRetries = 5; // Aumentato il numero di tentativi
+      const maxRetries = 5; // Increased number of attempts
       let success = false;
       
       while (!success && retryCount < maxRetries) {
@@ -387,20 +389,20 @@ const addTracksToPlaylist = async (playlistId, tracks, playlistName, req) => {
           retryCount++;
           console.error(`Error adding batch ${i/batchSize + 1}/${Math.ceil(trackUris.length/batchSize)} to playlist ${playlistName} (attempt ${retryCount}/${maxRetries}):`, error.message);
           
-          // Verifica se l'errore è relativo a un ID base62 non valido (tracce locali)
+          // Check if the error is related to an invalid base62 ID (local traces)
           if (error.message && error.message.includes('Invalid base62 id')) {
             console.log(`Il batch contiene probabilmente tracce locali non migrabili. Provo ad aggiungere i brani singolarmente.`);
-            break; // Esci dal ciclo while e prova con approccio singolo brano
+            break; // Exit the while loop and try the single track approach
           }
           
           if (retryCount >= maxRetries) {
-            // Se falliscono tutti i tentativi con il batch, prova ad aggiungere i brani uno alla volta
+            // If all batch attempts fail, try adding songs one at a time.
             console.log(`Trying to add tracks one by one for batch ${i/batchSize + 1}`);
-            break; // Esci dal ciclo while e prova con approccio singolo brano
+            break; // Exit the while loop and try the single track approach
           } else {
-            // Attesa esponenziale con jitter
-            const baseWait = 2000; // 2 secondi di base
-            const jitter = Math.random() * 1000; // Random jitter fino a 1 secondo
+            // Exponential wait with jitter
+            const baseWait = 2000; // 2 seconds of base
+            const jitter = Math.random() * 1000; // Random jitter up to 1 second
             const waitTime = (baseWait * Math.pow(2, retryCount - 1)) + jitter;
             console.log(`Waiting ${Math.round(waitTime)}ms before retry...`);
             await new Promise(resolve => setTimeout(resolve, waitTime));
@@ -408,11 +410,11 @@ const addTracksToPlaylist = async (playlistId, tracks, playlistName, req) => {
         }
       }
       
-      // Se non siamo riusciti ad aggiungere il batch intero, prova ad aggiungere i brani uno alla volta
+      // If we were unable to add the entire batch, try adding the songs one at a time
       if (!success) {
         for (const trackUri of batch) {
           try {
-            // Verifica se è una traccia locale prima di tentare di aggiungerla
+            // Check if it is a local track before trying to add it
             if (trackUri.startsWith('spotify:local:')) {
               console.log(`Salto traccia locale: ${trackUri}`);
               skippedTracks.push(trackUri);
@@ -421,7 +423,7 @@ const addTracksToPlaylist = async (playlistId, tracks, playlistName, req) => {
             
             await destApi.addTracksToPlaylist(playlistId, [trackUri]);
             addedCount++;
-            // Pausa più breve tra i singoli brani
+            // Shorter pause between individual songs
             await new Promise(resolve => setTimeout(resolve, 200));
           } catch (singleError) {
             console.error(`Failed to add track ${trackUri} to playlist:`, singleError.message);
@@ -432,7 +434,7 @@ const addTracksToPlaylist = async (playlistId, tracks, playlistName, req) => {
         }
       }
       
-      // Pausa più breve tra batch per bilanciare velocità e rate limiting
+      // Shorter pause between batches to balance speed and rate limiting
       await new Promise(resolve => setTimeout(resolve, 500));
     }
     
@@ -446,12 +448,12 @@ const addTracksToPlaylist = async (playlistId, tracks, playlistName, req) => {
   }
 };
 
-// Funzione per elaborare una singola playlist
+// Function to process a single playlist
 const processPlaylist = async (playlistId, index, total, res, migrationLog, errors, followNonUserPlaylists, transferImages, req) => {
   try {
     const { sourceApi, destApi } = getApiInstances(req);
     
-    // Ottieni dettagli della playlist sorgente
+    // Get source playlist details
     let sourcePlaylist;
     try {
       sourcePlaylist = await sourceApi.getPlaylist(playlistId);
@@ -467,10 +469,10 @@ const processPlaylist = async (playlistId, index, total, res, migrationLog, erro
     const playlistData = sourcePlaylist.body;
     const playlistName = playlistData.name || `Playlist ${playlistId}`;
     
-    // Verifica se la playlist è stata creata dall'utente
+    // Check if the playlist was created by the user
     const isUserPlaylist = playlistData.owner.id === req.session.sourceUser.id;
     
-    // Gestisci le playlist non create dall'utente
+    // Manage playlists not created by the user
     if (!isUserPlaylist) {
       if (followNonUserPlaylists) {
         migrationLog.push(`Seguendo playlist esistente: ${playlistName} (creata da ${playlistData.owner.display_name})`);
@@ -502,7 +504,7 @@ const processPlaylist = async (playlistId, index, total, res, migrationLog, erro
       }
     }
     
-    // Verifica se la playlist esiste già nell'account di destinazione
+    // Check if the playlist already exists in the target account
     const existingPlaylist = await checkPlaylistExists(playlistName, req);
     if (existingPlaylist) {
       migrationLog.push(`Playlist '${playlistName}' già esistente nell'account di destinazione. Migrazione saltata.`);
@@ -515,7 +517,7 @@ const processPlaylist = async (playlistId, index, total, res, migrationLog, erro
       };
     }
     
-    // Se la playlist è stata creata dall'utente e non esiste già, la ricreiamo
+    // If the playlist was created by the user and does not already exist, we recreate it
     migrationLog.push(`Creazione nuova playlist: ${playlistName}`);
     
     // Check if the playlist is private
@@ -571,7 +573,7 @@ const processPlaylist = async (playlistId, index, total, res, migrationLog, erro
       
       if (skippedLocalTracks.length > 0) {
         migrationLog.push(`Saltate ${skippedLocalTracks.length} tracce locali non migrabili dalla playlist '${playlistName}'.`);
-        // Registra i dettagli delle tracce locali saltate per riferimento
+        // Record details of skipped local tracks for reference
         for (const localTrack of skippedLocalTracks) {
           migrationLog.push(`  - Traccia locale saltata: ${localTrack.name}`);
         }
@@ -628,7 +630,7 @@ const processPlaylist = async (playlistId, index, total, res, migrationLog, erro
       }
     }
     
-    // Verifica se la migrazione è stata parzialmente completata
+    // Check if the migration is partially completed
     const totalTracksToMigrate = tracks.length;
     const partialSuccess = addedTracksCount > 0 && addedTracksCount < totalTracksToMigrate;
     
@@ -682,9 +684,9 @@ router.post('/migrate/saved-tracks', [auth.refreshSourceToken, auth.refreshDestT
       });
     }
     
-    // Assicurati che i token siano impostati correttamente
+    // Make sure your tokens are set up correctly
     console.log('Migrazione brani preferiti: impostazione token');
-    // Usa i token dalla sessione tokens invece che da sourceUser/destUser
+    // Use tokens from session tokens instead of sourceUser/destUser
     if (req.session.sourceTokens && req.session.sourceTokens.accessToken) {
       auth.createSourceApi(req).setAccessToken(req.session.sourceTokens.accessToken);
     } else {
@@ -699,7 +701,7 @@ router.post('/migrate/saved-tracks', [auth.refreshSourceToken, auth.refreshDestT
     
     migrationLog.push(`Inizio migrazione di ${savedTrackIds.length} brani preferiti...`);
     
-    // Verifica quali brani sono già salvati nell'account di destinazione
+    // Check which songs are already saved in the destination account
     const batchCheckSize = 50;
     let alreadySavedTracks = [];
     
@@ -708,7 +710,7 @@ router.post('/migrate/saved-tracks', [auth.refreshSourceToken, auth.refreshDestT
       try {
         const checkResult = await auth.createDestApi(req).containsMySavedTracks(batchToCheck);
         
-        // Aggiungi gli ID dei brani già salvati all'array
+        // Add the IDs of already saved songs to the array
         batchToCheck.forEach((trackId, index) => {
           if (checkResult.body[index]) {
             alreadySavedTracks.push(trackId);
@@ -716,10 +718,10 @@ router.post('/migrate/saved-tracks', [auth.refreshSourceToken, auth.refreshDestT
         });
       } catch (error) {
         console.error(`Error checking saved tracks:`, error);
-        // In caso di errore, continua con la migrazione normale
+        // If an error occurs, continue with normal migration.
       }
       
-      // Pausa breve per evitare rate limiting
+      // Short break to avoid rate limiting
       await new Promise(resolve => setTimeout(resolve, 100));
     }
     
@@ -727,7 +729,7 @@ router.post('/migrate/saved-tracks', [auth.refreshSourceToken, auth.refreshDestT
       migrationLog.push(`Trovati ${alreadySavedTracks.length} brani già salvati nell'account di destinazione. Questi brani verranno saltati.`);
     }
     
-    // Filtra i brani da migrare, escludendo quelli già salvati
+    // Filter the songs to migrate, excluding those already saved
     const tracksToMigrate = savedTrackIds.filter(trackId => !alreadySavedTracks.includes(trackId));
     
     if (tracksToMigrate.length === 0) {
@@ -741,7 +743,7 @@ router.post('/migrate/saved-tracks', [auth.refreshSourceToken, auth.refreshDestT
     
     migrationLog.push(`Migrazione di ${tracksToMigrate.length} brani non ancora salvati...`);
     
-    // Aggiungi i brani in batch
+    // Add songs in batch
     const batchSize = 50;
     let migratedCount = 0;
     
@@ -756,7 +758,7 @@ router.post('/migrate/saved-tracks', [auth.refreshSourceToken, auth.refreshDestT
       } catch (error) {
         console.error(`Error adding batch of tracks to saved tracks:`, error);
         
-        // Gestione dettagliata degli errori
+        // Detailed error handling
         if (error.statusCode === 401) {
           console.log('Errore di autenticazione 401, aggiornamento token');
           await new Promise((resolve) => {
@@ -766,7 +768,7 @@ router.post('/migrate/saved-tracks', [auth.refreshSourceToken, auth.refreshDestT
             });
           });
           
-          // Prova di nuovo con il token aggiornato
+          // Try again with the updated token
           try {
             await auth.createDestApi(req).addToMySavedTracks(batch);
             migratedCount += batch.length;
@@ -775,11 +777,11 @@ router.post('/migrate/saved-tracks', [auth.refreshSourceToken, auth.refreshDestT
             errors.push(`Errore nell'aggiunta di brani ai preferiti anche dopo aggiornamento token: ${retryError.message}`);
           }
         } else if (error.statusCode === 429) {
-          // Rate limiting - attendi più a lungo
+          // Rate limiting - wait longer
           const retryAfter = error.headers['retry-after'] ? parseInt(error.headers['retry-after']) * 1000 : 5000;
           migrationLog.push(`Rate limit raggiunto, attendo ${retryAfter/1000} secondi prima di riprovare...`);
           await new Promise(resolve => setTimeout(resolve, retryAfter));
-          // Decremento i per riprovare lo stesso batch
+          // Decrement i to retry the same batch
           i -= batchSize;
           continue;
         } else {
@@ -787,7 +789,7 @@ router.post('/migrate/saved-tracks', [auth.refreshSourceToken, auth.refreshDestT
         }
       }
       
-      // Pausa per evitare rate limiting
+      // Decrement i to retry the same batch
       await new Promise(resolve => setTimeout(resolve, 500));
     }
     
@@ -825,9 +827,9 @@ router.post('/migrate/followed-artists', [auth.refreshSourceToken, auth.refreshD
       });
     }
     
-    // Assicurati che i token siano impostati correttamente
+    // Make sure your tokens are set up correctly
     console.log('Migrazione artisti seguiti: impostazione token');
-    // Usa i token dalla sessione tokens invece che da sourceUser/destUser
+    // Use tokens from session tokens instead of sourceUser/destUser
     if (req.session.sourceTokens && req.session.sourceTokens.accessToken) {
       auth.createSourceApi(req).setAccessToken(req.session.sourceTokens.accessToken);
     } else {
@@ -842,7 +844,7 @@ router.post('/migrate/followed-artists', [auth.refreshSourceToken, auth.refreshD
     
     migrationLog.push(`Inizio migrazione di ${followedArtistIds.length} artisti...`);
     
-    // Verifica quali artisti sono già seguiti nell'account di destinazione
+    // Check which artists are already followed on the target account
     const batchCheckSize = 50;
     let alreadyFollowedArtists = [];
     
@@ -851,7 +853,7 @@ router.post('/migrate/followed-artists', [auth.refreshSourceToken, auth.refreshD
       try {
         const checkResult = await auth.createDestApi(req).isFollowingArtists(batchToCheck);
         
-        // Aggiungi gli ID degli artisti già seguiti all'array
+        // Add the IDs of the artists you already followed to the array
         batchToCheck.forEach((artistId, index) => {
           if (checkResult.body[index]) {
             alreadyFollowedArtists.push(artistId);
@@ -859,10 +861,10 @@ router.post('/migrate/followed-artists', [auth.refreshSourceToken, auth.refreshD
         });
       } catch (error) {
         console.error(`Error checking followed artists:`, error);
-        // In caso di errore, continua con la migrazione normale
+        // If an error occurs, continue with normal migration.
       }
       
-      // Pausa breve per evitare rate limiting
+      // Short break to avoid rate limiting
       await new Promise(resolve => setTimeout(resolve, 100));
     }
     
@@ -870,7 +872,7 @@ router.post('/migrate/followed-artists', [auth.refreshSourceToken, auth.refreshD
       migrationLog.push(`Trovati ${alreadyFollowedArtists.length} artisti già seguiti nell'account di destinazione. Questi artisti verranno saltati.`);
     }
     
-    // Filtra gli artisti da seguire, escludendo quelli già seguiti
+    // Filter the artists to follow, excluding those already followed
     const artistsToFollow = followedArtistIds.filter(artistId => !alreadyFollowedArtists.includes(artistId));
     
     if (artistsToFollow.length === 0) {
@@ -884,7 +886,7 @@ router.post('/migrate/followed-artists', [auth.refreshSourceToken, auth.refreshD
     
     migrationLog.push(`Seguendo ${artistsToFollow.length} artisti non ancora seguiti...`);
     
-    // Segui gli artisti in batch
+    // Follow artists in batch
     const batchSize = 50;
     let migratedCount = 0;
     
@@ -909,7 +911,7 @@ router.post('/migrate/followed-artists', [auth.refreshSourceToken, auth.refreshD
             });
           });
           
-          // Prova di nuovo con il token aggiornato
+          // Try again with the updated token
           try {
             await auth.createDestApi(req).followArtists(batch);
             migratedCount += batch.length;
@@ -918,11 +920,11 @@ router.post('/migrate/followed-artists', [auth.refreshSourceToken, auth.refreshD
             errors.push(`Errore nel seguire artisti anche dopo aggiornamento token: ${retryError.message}`);
           }
         } else if (error.statusCode === 429) {
-          // Rate limiting - attendi più a lungo
+          // Rate limiting - wait longer
           const retryAfter = error.headers['retry-after'] ? parseInt(error.headers['retry-after']) * 1000 : 5000;
           migrationLog.push(`Rate limit raggiunto, attendo ${retryAfter/1000} secondi prima di riprovare...`);
           await new Promise(resolve => setTimeout(resolve, retryAfter));
-          // Decremento i per riprovare lo stesso batch
+          // Decrement i to retry the same batch
           i -= batchSize;
           continue;
         } else {
@@ -930,7 +932,7 @@ router.post('/migrate/followed-artists', [auth.refreshSourceToken, auth.refreshD
         }
       }
       
-      // Pausa per evitare rate limiting
+      // Pause to avoid rate limiting
       await new Promise(resolve => setTimeout(resolve, 500));
     }
     
@@ -952,7 +954,7 @@ router.post('/migrate/followed-artists', [auth.refreshSourceToken, auth.refreshD
   }
 });
 
-// Funzione principale di migrazione
+// Main migration function
 router.post('/migrate', [auth.refreshSourceToken, auth.refreshDestToken, ensureAuthenticated], async (req, res) => {
   try {
     const { 
@@ -979,7 +981,7 @@ router.post('/migrate', [auth.refreshSourceToken, auth.refreshDestToken, ensureA
       return res.status(401).json({ error: 'Sessione non valida' });
     }
     
-    // Inizializza le API di Spotify
+    // Initialize Spotify APIs
     auth.createSourceApi(req).setAccessToken(req.session.sourceUser.accessToken);
     auth.createDestApi(req).setAccessToken(req.session.destUser.accessToken);
     
@@ -987,11 +989,11 @@ router.post('/migrate', [auth.refreshSourceToken, auth.refreshDestToken, ensureA
     const errors = [];
     
     try {
-      // Migra le playlist
+      // Migrate the playlist
       if (playlists && playlists.length > 0) {
         migrationLog.push(`Inizio migrazione di ${playlists.length} playlist...`);
         
-        // Dividi le playlist in batch per gestirle in parallelo
+        // Split playlists into batches to manage them in parallel
         const MAX_CONCURRENT = 3;
         const batches = [];
         for (let i = 0; i < playlists.length; i += MAX_CONCURRENT) {
@@ -999,7 +1001,7 @@ router.post('/migrate', [auth.refreshSourceToken, auth.refreshDestToken, ensureA
         }
         
         for (const batch of batches) {
-          // Assicurati che i token siano sempre aggiornati
+          // Make sure your tokens are always up to date
           auth.createSourceApi(req).setAccessToken(req.session.sourceUser.accessToken);
           auth.createDestApi(req).setAccessToken(req.session.destUser.accessToken);
           
@@ -1019,7 +1021,7 @@ router.post('/migrate', [auth.refreshSourceToken, auth.refreshDestToken, ensureA
             )
           );
           
-          // Pausa tra i batch per evitare rate limiting
+          // Pause between batches to avoid rate limiting
           await new Promise(resolve => setTimeout(resolve, 500));
         }
         
@@ -1031,15 +1033,15 @@ router.post('/migrate', [auth.refreshSourceToken, auth.refreshDestToken, ensureA
     }
     
     try {
-      // Migra i brani preferiti
+      // Migrate your favorite songs
       if (savedTracks === true && savedTrackIds && savedTrackIds.length > 0) {
-        // Effettua la chiamata a saved-tracks come richiesta separata
+        // Make the call to saved-tracks as a separate request
         try {
-          // Aggiorna i token prima della chiamata
+          // Refresh tokens before calling
           await new Promise((resolve) => auth.refreshSourceToken(req, res, resolve));
           await new Promise((resolve) => auth.refreshDestToken(req, res, resolve));
           
-          // Assicurati che i token siano aggiornati nella sessione
+          // Make sure tokens are updated in session
           req.session.sourceUser = {
             ...req.session.sourceUser,
             accessToken: req.session.sourceTokens.accessToken
@@ -1050,7 +1052,7 @@ router.post('/migrate', [auth.refreshSourceToken, auth.refreshDestToken, ensureA
             accessToken: req.session.destTokens.accessToken
           };
           
-          // Imposta i token aggiornati nelle API
+          // Set up updated tokens in APIs
           auth.createSourceApi(req).setAccessToken(req.session.sourceTokens.accessToken);
           auth.createDestApi(req).setAccessToken(req.session.destTokens.accessToken);
           
@@ -1084,15 +1086,15 @@ router.post('/migrate', [auth.refreshSourceToken, auth.refreshDestToken, ensureA
     }
     
     try {
-      // Migra gli artisti seguiti
+      // Migrate the artists followed
       if (followedArtists === true && followedArtistIds && followedArtistIds.length > 0) {
         // Effettua la chiamata a followed-artists come richiesta separata
         try {
-          // Aggiorna i token prima della chiamata
+          // Refresh tokens before calling
           await new Promise((resolve) => auth.refreshSourceToken(req, res, resolve));
           await new Promise((resolve) => auth.refreshDestToken(req, res, resolve));
           
-          // Assicurati che i token siano aggiornati nella sessione
+          // Make sure tokens are updated in session
           req.session.sourceUser = {
             ...req.session.sourceUser,
             accessToken: req.session.sourceTokens.accessToken
@@ -1103,7 +1105,7 @@ router.post('/migrate', [auth.refreshSourceToken, auth.refreshDestToken, ensureA
             accessToken: req.session.destTokens.accessToken
           };
           
-          // Imposta i token aggiornati nelle API
+          // Set up updated tokens in APIs
           auth.createSourceApi(req).setAccessToken(req.session.sourceTokens.accessToken);
           auth.createDestApi(req).setAccessToken(req.session.destTokens.accessToken);
           
@@ -1136,7 +1138,7 @@ router.post('/migrate', [auth.refreshSourceToken, auth.refreshDestToken, ensureA
       errors.push(`Errore durante la migrazione degli artisti seguiti: ${followedArtistsError.message}`);
     }
     
-    // Invia il risultato finale
+    // Submit the final result
     res.json({
       success: errors.length === 0,
       log: migrationLog,
