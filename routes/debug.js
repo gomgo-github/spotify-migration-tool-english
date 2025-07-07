@@ -6,18 +6,18 @@ const { promisify } = require('util');
 
 const readFileAsync = promisify(fs.readFile);
 
-// Endpoint per recuperare i log di debug
+// Endpoint to retrieve debug logs
 router.get('/logs', async (req, res) => {
   try {
-    // Leggi i file di log
+    // Read log files
     const errorLogPath = path.join(__dirname, '..', 'error.log');
     const combinedLogPath = path.join(__dirname, '..', 'combined.log');
     
-    // Leggi gli ultimi 50 log
+    // Read the last 50 logs
     const errorLogContent = await readFileAsync(errorLogPath, 'utf8');
     const combinedLogContent = await readFileAsync(combinedLogPath, 'utf8');
     
-    // Converti i log in formato JSON
+    // Convert logs to JSON format
     const errorLogs = errorLogContent
       .split('\n')
       .filter(line => line.trim())
@@ -60,7 +60,7 @@ router.get('/logs', async (req, res) => {
         }
       });
     
-    // Combina i log e ordina per timestamp (più recenti prima)
+    // Combine logs and sort by timestamp (newest first)
     const allLogs = [...errorLogs, ...combinedLogs]
       .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
       .slice(0, 50);
@@ -78,10 +78,10 @@ router.get('/logs', async (req, res) => {
   }
 });
 
-// Endpoint per recuperare informazioni di debug sull'autenticazione
+// Endpoint to retrieve authentication debug information
 router.get('/auth-info', (req, res) => {
   try {
-    // Recupera informazioni sulle variabili d'ambiente (senza esporre i secret)
+    // Retrieve information about environment variables (without exposing secrets)
     const envInfo = {
       SOURCE_CLIENT_ID: process.env.SOURCE_CLIENT_ID ? `${process.env.SOURCE_CLIENT_ID.substring(0, 5)}...` : 'Not set',
       SOURCE_REDIRECT_URI: process.env.SOURCE_REDIRECT_URI || 'Not set',
@@ -93,7 +93,7 @@ router.get('/auth-info', (req, res) => {
       PORT: process.env.PORT || '5000'
     };
     
-    // Recupera informazioni sulla sessione (se disponibile)
+    // Retrieve session information (if available)
     const sessionInfo = req.session ? {
       sourceUserSet: !!req.session.sourceUser,
       destUserSet: !!req.session.destUser,
@@ -112,5 +112,5 @@ router.get('/auth-info', (req, res) => {
   }
 });
 
-// Esporta il router
+// Export the router
 module.exports = router;
