@@ -29,7 +29,7 @@ const Header = ({ authStatus }) => {
       await logoutSource();
       window.location.href = '/';
     } catch (error) {
-      toast.error('Errore durante il logout dell\'account sorgente');
+      toast.error('Error logging out source account');
       console.error('Source logout error:', error);
     }
     handleMenuClose();
@@ -40,7 +40,7 @@ const Header = ({ authStatus }) => {
       await logoutDestination();
       window.location.href = '/';
     } catch (error) {
-      toast.error('Errore durante il logout dell\'account destinazione');
+      toast.error('Error logging out target account');
       console.error('Destination logout error:', error);
     }
     handleMenuClose();
@@ -51,7 +51,7 @@ const Header = ({ authStatus }) => {
       await logout();
       window.location.href = '/';
     } catch (error) {
-      toast.error('Errore durante il logout');
+      toast.error('Error while logging out');
       console.error('Logout error:', error);
     }
     handleMenuClose();
@@ -204,7 +204,7 @@ const Header = ({ authStatus }) => {
                     }}
                   >
                     <LogoutIcon sx={{ mr: 1.5, fontSize: 20 }} />
-                    Logout Account Sorgente
+                    Logout Source Account
                   </MenuItem>
                 )}
                 {destAuthenticated && (
@@ -218,7 +218,7 @@ const Header = ({ authStatus }) => {
                     }}
                   >
                     <LogoutIcon sx={{ mr: 1.5, fontSize: 20 }} />
-                    Logout Account Destinazione
+                    Logout Target Account 
                   </MenuItem>
                 )}
                 {sourceAuthenticated && destAuthenticated && (
@@ -233,7 +233,7 @@ const Header = ({ authStatus }) => {
                     }}
                   >
                     <LogoutIcon sx={{ mr: 1.5, fontSize: 20 }} />
-                    Logout Entrambi
+                    Logout Both
                   </MenuItem>
                 )}
               </Menu>
