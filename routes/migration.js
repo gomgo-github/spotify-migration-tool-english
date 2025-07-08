@@ -325,7 +325,7 @@ const getAllPlaylistTracks = async (playlistId, req) => {
             // Save information about skipped local track for log
             skippedLocalTracks.push({
               uri: item.track.uri,
-              name: item.track.name || 'Traccia locale senza nome'
+              name: item.track.name || 'Unnamed local track'
             });
           } else {
             validTracks.push(item.track);
@@ -391,7 +391,7 @@ const addTracksToPlaylist = async (playlistId, tracks, playlistName, req) => {
           
           // Check if the error is related to an invalid base62 ID (local traces)
           if (error.message && error.message.includes('Invalid base62 id')) {
-            console.log(`Il batch contiene probabilmente tracce locali non migrabili. Provo ad aggiungere i brani singolarmente.`);
+            console.log(`The batch probably contains local tracks that are not migratable. I'll try adding the tracks individually.`);
             break; // Exit the while loop and try the single track approach
           }
           
@@ -416,7 +416,7 @@ const addTracksToPlaylist = async (playlistId, tracks, playlistName, req) => {
           try {
             // Check if it is a local track before trying to add it
             if (trackUri.startsWith('spotify:local:')) {
-              console.log(`Salto traccia locale: ${trackUri}`);
+              console.log(`Local track skip: ${trackUri}`);
               skippedTracks.push(trackUri);
               continue;
             }
@@ -475,7 +475,7 @@ const processPlaylist = async (playlistId, index, total, res, migrationLog, erro
     // Manage playlists not created by the user
     if (!isUserPlaylist) {
       if (followNonUserPlaylists) {
-        migrationLog.push(`Seguendo playlist esistente: ${playlistName} (creata da ${playlistData.owner.display_name})`);
+        migrationLog.push(`Following existing playlist: ${playlistName} (created by ${playlistData.owner.display_name})`);
         
         try {
           await destApi.followPlaylist(playlistId, { public: playlistData.public });
@@ -507,7 +507,7 @@ const processPlaylist = async (playlistId, index, total, res, migrationLog, erro
     // Check if the playlist already exists in the target account
     const existingPlaylist = await checkPlaylistExists(playlistName, req);
     if (existingPlaylist) {
-      migrationLog.push(`Playlist '${playlistName}' già esistente nell'account di destinazione. Migrazione saltata.`);
+      migrationLog.push(`Playlist '${playlistName}' already exists in the destination account. Migration skipped.`);
       return {
         success: true,
         playlistId,
@@ -518,7 +518,7 @@ const processPlaylist = async (playlistId, index, total, res, migrationLog, erro
     }
     
     // If the playlist was created by the user and does not already exist, we recreate it
-    migrationLog.push(`Creazione nuova playlist: ${playlistName}`);
+    migrationLog.push(`Creating a new playlist: ${playlistName}`);
     
     // Check if the playlist is private
     const wasPrivate = !playlistData.public;
@@ -572,10 +572,10 @@ const processPlaylist = async (playlistId, index, total, res, migrationLog, erro
       migrationLog.push(`Fetched ${tracks.length} tracks from playlist '${playlistName}'.`);
       
       if (skippedLocalTracks.length > 0) {
-        migrationLog.push(`Saltate ${skippedLocalTracks.length} tracce locali non migrabili dalla playlist '${playlistName}'.`);
+        migrationLog.push(`Skip ${skippedLocalTracks.length} local tracks not migratable from playlist '${playlistName}'.`);
         // Record details of skipped local tracks for reference
         for (const localTrack of skippedLocalTracks) {
-          migrationLog.push(`  - Traccia locale saltata: ${localTrack.name}`);
+          migrationLog.push(`  - Local track skipped: ${localTrack.name}`);
         }
       }
     } catch (tracksError) {
@@ -596,7 +596,7 @@ const processPlaylist = async (playlistId, index, total, res, migrationLog, erro
         migrationLog.push(`Added ${addedTracksCount} of ${tracks.length} tracks to playlist '${playlistName}'.`);
         
         if (skippedTracks.length > 0) {
-          migrationLog.push(`Non è stato possibile aggiungere ${skippedTracks.length} tracce alla playlist '${playlistName}' (probabilmente tracce locali).`);
+          migrationLog.push(`Could not add ${skippedTracks.length} tracks to playlist '${playlistName}' (probably local tracks).`);
         }
       } catch (addTracksError) {
         console.error(`Error adding tracks to playlist ${playlistName}:`, addTracksError.message);
@@ -607,11 +607,11 @@ const processPlaylist = async (playlistId, index, total, res, migrationLog, erro
     // Step 5: Transfer playlist image if requested
     let imageTransferred = false;
     if (transferImages && isUserPlaylist) {
-      migrationLog.push(`Tentativo di trasferimento dell'immagine per la playlist '${playlistName}'...`);
+      migrationLog.push(`Attempting to transfer image for playlist '${playlistName}'...`);
       try {
         imageTransferred = await transferPlaylistImage(playlistId, newPlaylist.body.id, req);
         if (imageTransferred) {
-          migrationLog.push(`Immagine trasferita con successo per la playlist '${playlistName}'`);
+          migrationLog.push(`Image successfully transferred for playlist '${playlistName}'`);
         }
       } catch (imageError) {
         console.error(`Error transferring image for playlist ${playlistName}:`, imageError.message);
