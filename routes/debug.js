@@ -71,7 +71,7 @@ router.get('/logs', async (req, res) => {
     res.status(500).json({ 
       error: 'Failed to retrieve logs',
       logs: [
-        { timestamp: new Date(), message: 'Errore nel recupero dei log dal server', type: 'error' },
+        { timestamp: new Date(), message: 'Error retrieving logs from server', type: 'error' },
         { timestamp: new Date(), message: error.message, type: 'error' }
       ]
     });
