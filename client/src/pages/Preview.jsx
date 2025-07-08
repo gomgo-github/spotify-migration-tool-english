@@ -688,7 +688,7 @@ const Preview = ({ authStatus }) => {
                     setSelected(prev => ({ ...prev, expandedArtists: true }));
                   }}
                 >
-                  Artists Show
+                  Show Artists
                 </Button>
               </Box>
             ) : (
