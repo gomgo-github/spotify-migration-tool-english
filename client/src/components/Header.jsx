@@ -101,7 +101,7 @@ const Header = ({ authStatus }) => {
                   {!sourceUser.images?.[0]?.url && <AccountCircleIcon />}
                 </Avatar>
               }
-              label={`Sorgente: ${sourceUser.display_name}`}
+              label={`Source: ${sourceUser.display_name}`}
               variant="outlined"
               size="medium"
               sx={{ 
@@ -126,7 +126,7 @@ const Header = ({ authStatus }) => {
                   {!destUser.images?.[0]?.url && <AccountCircleIcon />}
                 </Avatar>
               }
-              label={`Destinazione: ${destUser.display_name}`}
+              label={`Target: ${destUser.display_name}`}
               variant="outlined"
               size="medium"
               sx={{ 
