@@ -678,14 +678,14 @@ router.post('/migrate/saved-tracks', [auth.refreshSourceToken, auth.refreshDestT
     if (!savedTrackIds || !Array.isArray(savedTrackIds) || savedTrackIds.length === 0) {
       return res.json({
         success: false,
-        error: 'Nessun brano selezionato da migrare',
-        migrationLog: ['Nessun brano selezionato da migrare'],
-        errors: ['Nessun brano selezionato da migrare']
+        error: 'No songs selected to migrate',
+        migrationLog: ['No songs selected to migrate'],
+        errors: ['No songs selected to migrate']
       });
     }
     
     // Make sure your tokens are set up correctly
-    console.log('Migrazione brani preferiti: impostazione token');
+    console.log('Migrating Favorite Songs: Token Setting');
     // Use tokens from session tokens instead of sourceUser/destUser
     if (req.session.sourceTokens && req.session.sourceTokens.accessToken) {
       auth.createSourceApi(req).setAccessToken(req.session.sourceTokens.accessToken);
@@ -699,7 +699,7 @@ router.post('/migrate/saved-tracks', [auth.refreshSourceToken, auth.refreshDestT
       auth.createDestApi(req).setAccessToken(req.session.destUser.accessToken);
     }
     
-    migrationLog.push(`Inizio migrazione di ${savedTrackIds.length} brani preferiti...`);
+    migrationLog.push(`Start of migration of ${savedTrackIds.length} favorite tracks...`);
     
     // Check which songs are already saved in the destination account
     const batchCheckSize = 50;
@@ -726,14 +726,14 @@ router.post('/migrate/saved-tracks', [auth.refreshSourceToken, auth.refreshDestT
     }
     
     if (alreadySavedTracks.length > 0) {
-      migrationLog.push(`Trovati ${alreadySavedTracks.length} brani già salvati nell'account di destinazione. Questi brani verranno saltati.`);
+      migrationLog.push(`Found ${alreadySavedTracks.length} songs already saved in the destination account. These songs will be skipped.`);
     }
     
     // Filter the songs to migrate, excluding those already saved
     const tracksToMigrate = savedTrackIds.filter(trackId => !alreadySavedTracks.includes(trackId));
     
     if (tracksToMigrate.length === 0) {
-      migrationLog.push(`Tutti i brani selezionati sono già presenti nell'account di destinazione. Nessun brano da migrare.`);
+      migrationLog.push(`All selected songs are already in the destination account. No songs to migrate.`);
       return res.json({
         success: true,
         migrationLog,
@@ -741,7 +741,7 @@ router.post('/migrate/saved-tracks', [auth.refreshSourceToken, auth.refreshDestT
       });
     }
     
-    migrationLog.push(`Migrazione di ${tracksToMigrate.length} brani non ancora salvati...`);
+    migrationLog.push(`Migration of ${tracksToMigrate.length} not saved yet songs...`);
     
     // Add songs in batch
     const batchSize = 50;
@@ -751,16 +751,16 @@ router.post('/migrate/saved-tracks', [auth.refreshSourceToken, auth.refreshDestT
       const batch = tracksToMigrate.slice(i, i + batchSize);
       
       try {
-        console.log(`Aggiunta batch ${i/batchSize + 1} di brani preferiti (${batch.length} brani)`);
+        console.log(`Batch Add ${i/batchSize + 1} favorite songs (${batch.length} tracks)`);
         await auth.createDestApi(req).addToMySavedTracks(batch);
         migratedCount += batch.length;
-        migrationLog.push(`Aggiunti ${batch.length} brani ai preferiti (${migratedCount}/${tracksToMigrate.length})`);
+        migrationLog.push(`Added ${batch.length} songs to favorites (${migratedCount}/${tracksToMigrate.length})`);
       } catch (error) {
         console.error(`Error adding batch of tracks to saved tracks:`, error);
         
         // Detailed error handling
         if (error.statusCode === 401) {
-          console.log('Errore di autenticazione 401, aggiornamento token');
+          console.log('Authentication error 401, refresh token');
           await new Promise((resolve) => {
             auth.refreshDestToken(req, res, () => {
               auth.createDestApi(req).setAccessToken(req.session.destUser.accessToken);
@@ -772,20 +772,20 @@ router.post('/migrate/saved-tracks', [auth.refreshSourceToken, auth.refreshDestT
           try {
             await auth.createDestApi(req).addToMySavedTracks(batch);
             migratedCount += batch.length;
-            migrationLog.push(`Aggiunti ${batch.length} brani ai preferiti dopo aggiornamento token (${migratedCount}/${tracksToMigrate.length})`);
+            migrationLog.push(`Added ${batch.length} songs to favorites after token update (${migratedCount}/${tracksToMigrate.length})`);
           } catch (retryError) {
-            errors.push(`Errore nell'aggiunta di brani ai preferiti anche dopo aggiornamento token: ${retryError.message}`);
+            errors.push(`Error adding songs to favorites even after token update: ${retryError.message}`);
           }
         } else if (error.statusCode === 429) {
           // Rate limiting - wait longer
           const retryAfter = error.headers['retry-after'] ? parseInt(error.headers['retry-after']) * 1000 : 5000;
-          migrationLog.push(`Rate limit raggiunto, attendo ${retryAfter/1000} secondi prima di riprovare...`);
+          migrationLog.push(`Rate limit reached, waiting ${retryAfter/1000} seconds before trying again...`);
           await new Promise(resolve => setTimeout(resolve, retryAfter));
           // Decrement i to retry the same batch
           i -= batchSize;
           continue;
         } else {
-          errors.push(`Errore nell'aggiunta di alcuni brani ai preferiti: ${error.message}`);
+          errors.push(`Error adding some songs to favorites: ${error.message}`);
         }
       }
       
@@ -793,7 +793,7 @@ router.post('/migrate/saved-tracks', [auth.refreshSourceToken, auth.refreshDestT
       await new Promise(resolve => setTimeout(resolve, 500));
     }
     
-    migrationLog.push(`Migrazione brani preferiti completata: ${migratedCount}/${savedTrackIds.length} brani migrati`);
+    migrationLog.push(`Favorite songs migration completed: ${migratedCount}/${savedTrackIds.length} migrated tracks`);
     
     res.json({
       success: migratedCount > 0,
@@ -821,14 +821,14 @@ router.post('/migrate/followed-artists', [auth.refreshSourceToken, auth.refreshD
     if (!followedArtistIds || !Array.isArray(followedArtistIds) || followedArtistIds.length === 0) {
       return res.json({
         success: false,
-        error: 'Nessun artista selezionato da migrare',
-        migrationLog: ['Nessun artista selezionato da migrare'],
-        errors: ['Nessun artista selezionato da migrare']
+        error: 'No artists selected to migrate',
+        migrationLog: ['No artists selected to migrate'],
+        errors: ['No artists selected to migrate']
       });
     }
     
     // Make sure your tokens are set up correctly
-    console.log('Migrazione artisti seguiti: impostazione token');
+    console.log('Migrating Followed Artists: Token Setting');
     // Use tokens from session tokens instead of sourceUser/destUser
     if (req.session.sourceTokens && req.session.sourceTokens.accessToken) {
       auth.createSourceApi(req).setAccessToken(req.session.sourceTokens.accessToken);
@@ -842,7 +842,7 @@ router.post('/migrate/followed-artists', [auth.refreshSourceToken, auth.refreshD
       auth.createDestApi(req).setAccessToken(req.session.destUser.accessToken);
     }
     
-    migrationLog.push(`Inizio migrazione di ${followedArtistIds.length} artisti...`);
+    migrationLog.push(`Start of migration of ${followedArtistIds.length} artists...`);
     
     // Check which artists are already followed on the target account
     const batchCheckSize = 50;
@@ -869,14 +869,14 @@ router.post('/migrate/followed-artists', [auth.refreshSourceToken, auth.refreshD
     }
     
     if (alreadyFollowedArtists.length > 0) {
-      migrationLog.push(`Trovati ${alreadyFollowedArtists.length} artisti già seguiti nell'account di destinazione. Questi artisti verranno saltati.`);
+      migrationLog.push(`Found ${alreadyFollowedArtists.length} artists already followed on the target account. These artists will be skipped.`);
     }
     
     // Filter the artists to follow, excluding those already followed
     const artistsToFollow = followedArtistIds.filter(artistId => !alreadyFollowedArtists.includes(artistId));
     
     if (artistsToFollow.length === 0) {
-      migrationLog.push(`Tutti gli artisti selezionati sono già seguiti nell'account di destinazione. Nessun artista da seguire.`);
+      migrationLog.push(`All selected artists are already followed on the target account. No artists to follow.`);
       return res.json({
         success: true,
         migrationLog,
@@ -884,7 +884,7 @@ router.post('/migrate/followed-artists', [auth.refreshSourceToken, auth.refreshD
       });
     }
     
-    migrationLog.push(`Seguendo ${artistsToFollow.length} artisti non ancora seguiti...`);
+    migrationLog.push(`Following ${artistsToFollow.length} artists not yet followed...`);
     
     // Follow artists in batch
     const batchSize = 50;
@@ -894,16 +894,16 @@ router.post('/migrate/followed-artists', [auth.refreshSourceToken, auth.refreshD
       const batch = artistsToFollow.slice(i, i + batchSize);
       
       try {
-        console.log(`Seguendo batch ${i/batchSize + 1} di artisti (${batch.length} artisti)`);
+        console.log(`Following batch ${i/batchSize + 1} of artists (${batch.length} artists)`);
         await auth.createDestApi(req).followArtists(batch);
         migratedCount += batch.length;
-        migrationLog.push(`Seguiti ${batch.length} artisti (${migratedCount}/${artistsToFollow.length})`);
+        migrationLog.push(`Followed ${batch.length} artists (${migratedCount}/${artistsToFollow.length})`);
       } catch (error) {
         console.error(`Error following batch of artists:`, error);
         
         // Gestione dettagliata degli errori
         if (error.statusCode === 401) {
-          console.log('Errore di autenticazione 401, aggiornamento token');
+          console.log('Authentication error 401, refresh token');
           await new Promise((resolve) => {
             auth.refreshDestToken(req, res, () => {
               auth.createDestApi(req).setAccessToken(req.session.destUser.accessToken);
@@ -915,20 +915,20 @@ router.post('/migrate/followed-artists', [auth.refreshSourceToken, auth.refreshD
           try {
             await auth.createDestApi(req).followArtists(batch);
             migratedCount += batch.length;
-            migrationLog.push(`Seguiti ${batch.length} artisti dopo aggiornamento token (${migratedCount}/${artistsToFollow.length})`);
+            migrationLog.push(`Followed ${batch.length} artists after token update (${migratedCount}/${artistsToFollow.length})`);
           } catch (retryError) {
-            errors.push(`Errore nel seguire artisti anche dopo aggiornamento token: ${retryError.message}`);
+            errors.push(`Error following artists even after token update: ${retryError.message}`);
           }
         } else if (error.statusCode === 429) {
           // Rate limiting - wait longer
           const retryAfter = error.headers['retry-after'] ? parseInt(error.headers['retry-after']) * 1000 : 5000;
-          migrationLog.push(`Rate limit raggiunto, attendo ${retryAfter/1000} secondi prima di riprovare...`);
+          migrationLog.push(`Rate limit reached, waiting ${retryAfter/1000} seconds before trying again...`);
           await new Promise(resolve => setTimeout(resolve, retryAfter));
           // Decrement i to retry the same batch
           i -= batchSize;
           continue;
         } else {
-          errors.push(`Errore nel seguire alcuni artisti: ${error.message}`);
+          errors.push(`Error following some artists: ${error.message}`);
         }
       }
       
@@ -936,7 +936,7 @@ router.post('/migrate/followed-artists', [auth.refreshSourceToken, auth.refreshD
       await new Promise(resolve => setTimeout(resolve, 500));
     }
     
-    migrationLog.push(`Migrazione artisti completata: ${migratedCount}/${followedArtistIds.length} artisti seguiti`);
+    migrationLog.push(`Artist migration completed: ${migratedCount}/${followedArtistIds.length} artists followed`);
     
     res.json({
       success: migratedCount > 0,
@@ -967,7 +967,7 @@ router.post('/migrate', [auth.refreshSourceToken, auth.refreshDestToken, ensureA
       transferImages 
     } = req.body;
     
-    console.log('Dati ricevuti per la migrazione:', {
+    console.log('Data received for migration:', {
       playlists: playlists?.length || 0,
       savedTracks: savedTracks,
       savedTrackIds: savedTrackIds?.length || 0,
@@ -978,7 +978,7 @@ router.post('/migrate', [auth.refreshSourceToken, auth.refreshDestToken, ensureA
     });
     
     if (!req.session.sourceUser || !req.session.destUser) {
-      return res.status(401).json({ error: 'Sessione non valida' });
+      return res.status(401).json({ error: 'Invalid session' });
     }
     
     // Initialize Spotify APIs
@@ -991,7 +991,7 @@ router.post('/migrate', [auth.refreshSourceToken, auth.refreshDestToken, ensureA
     try {
       // Migrate the playlist
       if (playlists && playlists.length > 0) {
-        migrationLog.push(`Inizio migrazione di ${playlists.length} playlist...`);
+        migrationLog.push(`Start of migration of ${playlists.length} playlists...`);
         
         // Split playlists into batches to manage them in parallel
         const MAX_CONCURRENT = 3;
@@ -1025,11 +1025,11 @@ router.post('/migrate', [auth.refreshSourceToken, auth.refreshDestToken, ensureA
           await new Promise(resolve => setTimeout(resolve, 500));
         }
         
-        migrationLog.push('Migrazione playlist completata');
+        migrationLog.push('Playlist migration completed');
       }
     } catch (playlistError) {
-      console.error('Errore durante la migrazione delle playlist:', playlistError);
-      errors.push(`Errore durante la migrazione delle playlist: ${playlistError.message}`);
+      console.error('Error while migrating playlists:', playlistError);
+      errors.push(`Error while migrating playlists: ${playlistError.message}`);
     }
     
     try {
@@ -1073,16 +1073,16 @@ router.post('/migrate', [auth.refreshSourceToken, auth.refreshDestToken, ensureA
             errors.push(...savedTracksResult.data.errors);
           }
         } catch (axiosError) {
-          console.error('Errore durante la chiamata alla route dei brani preferiti:', axiosError);
-          errors.push(`Errore durante la chiamata alla route dei brani preferiti: ${axiosError.message}`);
+          console.error('Error calling favorite songs route:', axiosError);
+          errors.push(`Error calling favorite songs route: ${axiosError.message}`);
         }
       } else if (savedTracks) {
-        console.log('Brani preferiti impostati su true ma nessun ID fornito');
-        migrationLog.push('Non sono stati forniti brani preferiti da migrare');
+        console.log('Favorite songs set to true but no ID provided');
+        migrationLog.push('No favorite songs were provided to migrate');
       }
     } catch (savedTracksError) {
-      console.error('Errore durante la migrazione dei brani preferiti:', savedTracksError);
-      errors.push(`Errore durante la migrazione dei brani preferiti: ${savedTracksError.message}`);
+      console.error('Error while migrating favorite songs:', savedTracksError);
+      errors.push(`Error while migrating favorite songs: ${savedTracksError.message}`);
     }
     
     try {
@@ -1126,16 +1126,16 @@ router.post('/migrate', [auth.refreshSourceToken, auth.refreshDestToken, ensureA
             errors.push(...followedArtistsResult.data.errors);
           }
         } catch (axiosError) {
-          console.error('Errore durante la chiamata alla route degli artisti seguiti:', axiosError);
-          errors.push(`Errore durante la chiamata alla route degli artisti seguiti: ${axiosError.message}`);
+          console.error('Error calling followed artists route:', axiosError);
+          errors.push(`Error calling followed artists route: ${axiosError.message}`);
         }
       } else if (followedArtists) {
-        console.log('Artisti seguiti impostati su true ma nessun ID fornito');
-        migrationLog.push('Non sono stati forniti artisti da seguire');
+        console.log('Artists followed set to true but no ID provided');
+        migrationLog.push('No artists to follow have been provided');
       }
     } catch (followedArtistsError) {
-      console.error('Errore durante la migrazione degli artisti seguiti:', followedArtistsError);
-      errors.push(`Errore durante la migrazione degli artisti seguiti: ${followedArtistsError.message}`);
+      console.error('Error while migrating followed artists:', followedArtistsError);
+      errors.push(`Error while migrating followed artists: ${followedArtistsError.message}`);
     }
     
     // Submit the final result
@@ -1148,7 +1148,7 @@ router.post('/migrate', [auth.refreshSourceToken, auth.refreshDestToken, ensureA
   } catch (error) {
     console.error('Error in migration route:', error);
     res.status(500).json({ 
-      error: 'Errore durante la migrazione',
+      error: 'Error during migration',
       details: error.message 
     });
   }
