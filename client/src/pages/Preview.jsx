@@ -471,7 +471,7 @@ const Preview = ({ authStatus }) => {
                           handleExpandPlaylist(playlist.id);
                         }}
                       >
-                        {expandedPlaylists[playlist.id] ? 'Chiudi' : 'Espandi'}
+                        {expandedPlaylists[playlist.id] ? 'Close' : 'Expand'}
                       </Button>
                       <Checkbox
                         edge="end"
